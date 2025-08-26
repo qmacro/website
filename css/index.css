@@ -275,6 +275,16 @@ header {
 	text-transform: capitalize;
 	font-style: italic;
 }
+
+/* may want to make the description text smaller at some stage */
+.post-description-list {
+	font-size: 1.0em;
+}
+
+.post-description-main {
+	font-style: italic;
+}
+
 .postlist-item > .post-tag {
 	align-self: center;
 }
