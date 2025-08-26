@@ -244,7 +244,6 @@ header {
 	counter-reset: start-from var(--postlist-index);
 	list-style: none;
 	padding: 0;
-	padding-left: 1.5rem;
 }
 .postlist-item {
 	display: flex;
@@ -256,7 +255,6 @@ header {
 .postlist-item:before {
 	display: inline-block;
 	pointer-events: none;
-	content: "" counter(start-from, decimal-leading-zero) ". ";
 	line-height: 100%;
 	text-align: right;
 	margin-left: -1.5rem;
@@ -273,8 +271,6 @@ header {
 	font-size: 1.1875em; /* 19px /16 */
 	font-weight: 700;
 	flex-basis: calc(100% - 1.5rem);
-	padding-left: .25em;
-	padding-right: .5em;
 	text-underline-position: from-font;
 	text-underline-offset: 0;
 	text-decoration-thickness: 1px;
@@ -291,6 +287,16 @@ header {
 	text-transform: capitalize;
 	font-style: italic;
 }
+
+/* may want to make the description text smaller at some stage */
+.post-description-list {
+	font-size: 1.0em;
+}
+
+.post-description-main {
+	font-style: italic;
+}
+
 .postlist-item > .post-tag {
 	align-self: center;
 }
@@ -506,6 +512,8 @@ pre[class*="language-diff-"] {
 	<li><a href="/website/tags/posts-with-two-tags/" class="post-tag">posts with two tags</a></li>
 </ul>
 
+<p class="post-description-main">This is a post on My Blog about win-win survival strategies.</p>
+
 <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</p>
 <h2 id="code">Code</h2>
 <h3 id="this-is-a-very-long-heading-that-i-want-to-wrap-this-is-a-very-long-heading-that-i-want-to-wrap-this-is-a-very-long-heading-that-i-want-to-wrap-this-is-a-very-long-heading-that-i-want-to-wrap">This is a very long heading that I want to wrap This is a very long heading that I want to wrap This is a very long heading that I want to wrap This is a very long heading that I want to wrap</h3>
@@ -538,7 +546,7 @@ console.log('Test');
 			</heading-anchors>
 		</main>
 
-		<!-- This page `/blog/thirdpost/` was built on 2025-08-26T11:09:12.029Z -->
+		<!-- This page `/blog/thirdpost/` was built on 2025-08-26T14:20:56.392Z -->
 		<script type="module" src="/website/dist/xbxy_EL6cU.js"></script>
 	</body>
 </html>

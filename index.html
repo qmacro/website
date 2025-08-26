@@ -244,7 +244,6 @@ header {
 	counter-reset: start-from var(--postlist-index);
 	list-style: none;
 	padding: 0;
-	padding-left: 1.5rem;
 }
 .postlist-item {
 	display: flex;
@@ -256,7 +255,6 @@ header {
 .postlist-item:before {
 	display: inline-block;
 	pointer-events: none;
-	content: "" counter(start-from, decimal-leading-zero) ". ";
 	line-height: 100%;
 	text-align: right;
 	margin-left: -1.5rem;
@@ -273,8 +271,6 @@ header {
 	font-size: 1.1875em; /* 19px /16 */
 	font-weight: 700;
 	flex-basis: calc(100% - 1.5rem);
-	padding-left: .25em;
-	padding-right: .5em;
 	text-underline-position: from-font;
 	text-underline-offset: 0;
 	text-decoration-thickness: 1px;
@@ -291,6 +287,16 @@ header {
 	text-transform: capitalize;
 	font-style: italic;
 }
+
+/* may want to make the description text smaller at some stage */
+.post-description-list {
+	font-size: 1.0em;
+}
+
+.post-description-main {
+	font-style: italic;
+}
+
 .postlist-item > .post-tag {
 	align-self: center;
 }
@@ -335,16 +341,19 @@ header {
 
 <ol reversed="" class="postlist" style="--postlist-index: 5">
 	<li class="postlist-item">
+		<time class="postlist-date" datetime="2018-09-30">30 Sep 2018</time>
 		<a href="/website/blog/fourthpost/" class="postlist-link">This is my fourth post</a>
-		<time class="postlist-date" datetime="2018-09-30">September 2018</time>
+		<p class="post-description">This is a post on My Blog about touchpoints and circling wagons.</p>
 	</li>
 	<li class="postlist-item">
+		<time class="postlist-date" datetime="2018-08-24">24 Aug 2018</time>
 		<a href="/website/blog/thirdpost/" class="postlist-link">This is my third post.</a>
-		<time class="postlist-date" datetime="2018-08-24">August 2018</time>
+		<p class="post-description">This is a post on My Blog about win-win survival strategies.</p>
 	</li>
 	<li class="postlist-item">
+		<time class="postlist-date" datetime="2018-07-04">04 Jul 2018</time>
 		<a href="/website/blog/secondpost/" class="postlist-link">This is my second post with a much longer title.</a>
-		<time class="postlist-date" datetime="2018-07-04">July 2018</time>
+		<p class="post-description">This is a post on My Blog about leveraging agile frameworks.</p>
 	</li>
 </ol>
 
@@ -361,7 +370,7 @@ header {
 			</heading-anchors>
 		</main>
 
-		<!-- This page `/` was built on 2025-08-26T11:09:12.028Z -->
+		<!-- This page `/` was built on 2025-08-26T14:20:56.390Z -->
 		<script type="module" src="/website/dist/xbxy_EL6cU.js"></script>
 	</body>
 </html>
