@@ -1,11 +1,11 @@
 export default {
-	title: "Eleventy Base Blog v9",
-	url: "https://example.com/",
+	title: "DJ Adams",
+	url: "https://qmacro.org/website/",
 	language: "en",
-	description: "I am writing about my experiences as a naval navel-gazer.",
+	description: "Reserving the right to be wrong.",
 	author: {
-		name: "Your Name Here",
-		email: "youremailaddress@example.com",
-		url: "https://example.com/about-me/"
+		name: "DJ Adams",
+		email: "qmacro@gmail.com",
+		url: "https://qmacro.org/about/"
 	}
 }
