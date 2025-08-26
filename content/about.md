@@ -1,4 +1,5 @@
 ---
+layout: layouts/base
 eleventyNavigation:
   key: About
   order: 2
