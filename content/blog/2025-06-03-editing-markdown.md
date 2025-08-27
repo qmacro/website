@@ -13,6 +13,8 @@ tags:
   - neovim
 ---
 
+🚧 DRAFT POST 🚧
+
 I am now feeling more comfortable having made the transition from Vim to Neovim and started reconfiguring in Lua. While I had a Neovim setup that worked fine for me for editing in general, which included Markdown sources, I knew I didn't quite understand how things worked, which tools were doing what, and what features I hadn't either discovered or properly got to grips with.
 
 This post is simply an attempt to document what I've set up specifically for Markdown, my understanding of it and the components that it comprises. I'm sure I have many gaps in that understanding and in my ability to wield the tools correctly; if you have any suggestions for changes or improvements, or can fix or enhance my understanding, please let me know in the comments!
