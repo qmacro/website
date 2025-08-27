@@ -27,7 +27,7 @@ export default async function(eleventyConfig) {
 			"./public/": "/"
 		})
 		.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl")
-		.addPassthroughCopy("images")
+		.addPassthroughCopy("./content/images/")
 		;
 
 	// Run Eleventy when these files change:
