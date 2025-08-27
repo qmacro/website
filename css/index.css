@@ -118,9 +118,9 @@ main,
 footer {
 	padding: 1rem;
 }
-main :first-child {
-	margin-top: 0;
-}
+/* main :first-child { */
+/* 	margin-top: 0; */
+/* } */
 
 header {
 	border-bottom: 1px dashed var(--color-gray-20);
