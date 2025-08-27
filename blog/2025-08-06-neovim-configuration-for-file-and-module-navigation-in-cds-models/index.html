@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Neovim configuration for file and module navigation in CDS models</title>
+		<meta name="description" content="In this post I describe how I extended my Lua-based Neovim configuration for CDS filetypes to improve navigation to referenced files and modules.">
+		<link rel="alternate" href="/website/feed/feed.xml" type="application/atom+xml" title="DJ Adams">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #2884d2;
+	--text-color-link-active: #15b0ed;
+	--text-color-link-visited: #9f4199;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img{
+  max-width: 100%;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+/* Overriding some Prism settings */
+pre,code[class*="language-"] {
+	font-family: var(--font-family-monospace);
+	font-size: 0.9em !important;
+	line-height: 1.2em !important;
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	flex-grow: 1;
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-style: italic;
+}
+
+/* may want to make the description text smaller at some stage */
+.post-description-list {
+	font-size: 1.0em;
+}
+
+.post-description-main {
+	font-style: italic;
+}
+
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+		
+	</head>
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/website/" class="home-link">DJ Adams</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/website/">Home</a></li>
+					<li class="nav-item"><a href="/website/about/">About</a></li>
+					<li class="nav-item"><a href="/website/blog/">Blog</a></li>
+					<li class="nav-item"><a href="/website/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="main">
+			<heading-anchors>
+				
+
+
+<h1 id="neovim-configuration-for-file-and-module-navigation-in-cds-models">Neovim configuration for file and module navigation in CDS models</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2025-08-06">06 August 2025</time></li>
+	<li><a href="/website/tags/neovim/" class="post-tag">neovim</a>, </li>
+	<li><a href="/website/tags/cds/" class="post-tag">cds</a>, </li>
+	<li><a href="/website/tags/lua/" class="post-tag">lua</a>, </li>
+	<li><a href="/website/tags/cap/" class="post-tag">cap</a></li>
+</ul>
+
+<p class="post-description-main">In this post I describe how I extended my Lua-based Neovim configuration for CDS filetypes to improve navigation to referenced files and modules.</p>
+
+<h2 id="cds-modelling-across-files-and-modules">CDS modelling across files and modules</h2>
+<p>In the context of CDS models, one of the best practices is to embrace <a href="https://cap.cloud.sap/docs/about/best-practices#aspects">aspects</a> and &quot;factor out separate concerns into separate files&quot;. In addition to files the CDS compiler supports Node.js packages (modules).</p>
+<p>An example of both can be found in the <a href="https://cap.cloud.sap/docs/tools/cds-cli#sample">sample</a> facet. Let's create a project based on this sample facet and explore.</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token punctuation">;</span> <span class="token builtin class-name">cd</span> /tmp <span class="token operator">&amp;&amp;</span> cds init <span class="token parameter variable">--add</span> sample sample <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> sample <span class="token operator">&amp;&amp;</span> tree <span class="token parameter variable">-L</span> <span class="token number">3</span>
+creating new CAP project <span class="token keyword">in</span> ./sample
+
+adding nodejs
+adding sample
+
+successfully created project – <span class="token builtin class-name">continue</span> with <span class="token builtin class-name">cd</span> sample
+
+<span class="token function">find</span> samples on https://github.com/SAP-samples/cloud-cap-samples
+learn about next steps at https://cap.cloud.sap
+<span class="token builtin class-name">.</span>
+├── README.md
+├── app
+│   ├── _i18n
+│   │   ├── i18n.properties
+│   │   └── i18n_de.properties
+│   ├── admin-books
+│   │   ├── fiori-service.cds
+│   │   └── webapp
+│   ├── appconfig
+│   │   └── fioriSandboxConfig.json
+│   ├── browse
+│   │   ├── fiori-service.cds
+│   │   └── webapp
+│   ├── common.cds
+│   ├── index.html
+│   └── services.cds
+├── db
+│   ├── data
+│   │   ├── sap.capire.bookshop-Authors.csv
+│   │   ├── sap.capire.bookshop-Books.csv
+│   │   ├── sap.capire.bookshop-Books_texts.csv
+│   │   └── sap.capire.bookshop-Genres.csv
+│   └── schema.cds
+├── eslint.config.mjs
+├── package.json
+└── srv
+    ├── admin-service.cds
+    ├── admin-service.js
+    ├── cat-service.cds
+    └── cat-service.js
+
+<span class="token number">11</span> directories, <span class="token number">20</span> files</code></pre>
+<h3 id="examining-the-using-references">Examining the 'using' references</h3>
+<p>In <code>app/admin-books/fiori-service.cds</code> there's this:</p>
+<pre class="language-cds" tabindex="0"><code class="language-cds"><span class="token using keyword">using</span> { AdminService } <span class="token from keyword">from</span> '../../srv/admin-<span class="token keyword">service</span>.cds';
+<span class="token using keyword">using</span> { sap.capire.bookshop } <span class="token from keyword">from</span> '../../db/schema';
+...</code></pre>
+<p>So <code>AdminService</code> is being imported from <code>../../srv/admin-service.cds</code>, which looks like this:</p>
+<pre class="language-cds" tabindex="0"><code class="language-cds"><span class="token using keyword">using</span> { sap.capire.bookshop <span class="token cqlkeywords keyword">as</span> my } <span class="token from keyword">from</span> '../db/schema';
+<span class="token keyword">service</span> AdminService <span class="token annotation important">@(requires:'admin')</span> {
+  <span class="token keyword">entity</span> Books <span class="token cqlkeywords keyword">as</span> <span class="token cdl-keyword keyword">projection</span> <span class="token cqlkeywords keyword">on</span> my.Books;
+  <span class="token keyword">entity</span> Authors <span class="token cqlkeywords keyword">as</span> <span class="token cdl-keyword keyword">projection</span> <span class="token cqlkeywords keyword">on</span> my.Authors;
+}</code></pre>
+<p>In turn, the entities here are from the <code>sap.capire.bookshop</code> namespace which is imported from <code>../db/schema</code>, which looks like this:</p>
+<pre class="language-cds" tabindex="0"><code class="language-cds"><span class="token using keyword">using</span> { Currency, managed, sap } <span class="token from keyword">from</span> '@sap/cds/common';
+<span class="token keyword">namespace</span> sap.capire.bookshop;
+
+<span class="token keyword">entity</span> Books : managed {
+   ...
+}</code></pre>
+<p>And <code>Currency</code>, <code>managed</code> and <code>sap</code> are imported from the module <code>@sap/cds/common</code>, a file (<code>common.cds</code>) within the <code>@sap/cds</code> module, which (at this point) is available in the globally installed <code>@sap/cds-dk</code> module location (as we haven't performed a project-local <code>npm install</code> yet), and looks like this (heavily redacted):</p>
+<pre class="language-cds" tabindex="0"><code class="language-cds"><span class="token cqlkeywords keyword">type</span> Currency : <span class="token association-composition keyword">Association to sap</span>.common.Currencies;
+...
+<span class="token keyword">aspect</span> managed {
+  createdAt  : <span class="token type builtin">Timestamp </span><span class="token annotation important">@cds.on.insert</span> : $now;
+  createdBy  : User      <span class="token annotation important">@cds.on.insert</span> : $user;
+  modifiedAt : <span class="token type builtin">Timestamp </span><span class="token annotation important">@cds.on.insert</span> : $now  <span class="token annotation important">@cds.on.update</span> : $now;
+  modifiedBy : User      <span class="token annotation important">@cds.on.insert</span> : $user <span class="token annotation important">@cds.on.update</span> : $user;
+}
+...</code></pre>
+<h3 id="visualising-the-navigation-path">Visualising the navigation path</h3>
+<p>Here's what these relations (and navigations) look like in &quot;diagram&quot; form (thanks to <a href="https://asciiflow.com/#/">ASCIIFlow</a>):</p>
+<pre class="language-text" tabindex="0"><code class="language-text">+-----------------------------+
+|app/admin/fiori-service.cds  |
++-----------------------------+
+|using ... from               |
+|'../../srv/admin-service.cds'|
+|             |              1|
++-------------|---------------+   +-----------------------------+
+              +-------------------|srv/admin-service.cds        |
+                                  +-----------------------------+
+                                  |using ... from               |
+                                  |'../db/schema.cds'           |
+                                  |            |               2|
++-----------------------------+   +------------|----------------+
+|db/schema.cds                |----------------+
++-----------------------------+
+|using ... from               |
+|'@sap/cds/common'            |
+|             |              3|
++-------------|---------------+   +-----------------------------+
+              +-------------------|@sap/cds/common              |
+                                  +-----------------------------+
+                                  |type Currency ...            |
+                                  |aspect managed { ... }       |
+                                  |                            4|
+                                  +-----------------------------+</code></pre>
+<blockquote>
+<p>As mentioned earlier, the <code>@sap/cds/common</code> resource is a file called <code>common.cds</code> within the <code>@sap/cds</code> module.</p>
+</blockquote>
+<p>What's notable is that these relations are expressed differently each time:</p>
+<ul>
+<li>the first points to <code>../../srv/admin-service.cds</code> which has an explicit <code>.cds</code> extension</li>
+<li>the second points to <code>../db/schema</code> which has no extension</li>
+<li>the third points to a Node.js module based resource <code>@sap/cds/common</code>, again with no extension specified</li>
+</ul>
+<p>Here's a quick demo of how that navigation path can be followed in VS Code, with the <a href="https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds">SAP CDS Language Support</a> extension:</p>
+<p><img src="content/images/2025/08/vscode-nav.gif" alt="navigation in VS Code"></p>
+<h2 id="making-cds-model-navigation-work-in-neovim">Making CDS model navigation work in Neovim</h2>
+<p>With the <code>@sap/cds-lsp</code> language server in play, plus the Tree-sitter queries for CDS, I have a good experience in Neovim already (see <a href="/website/blog/posts/2025/06/10/a-modern-and-clean-neovim-setup-for-cap-node.js-configuration-and-diagnostics/">A modern and clean Neovim setup for CAP Node.js - configuration and diagnostics</a>).</p>
+<p>However, using the standard <a href="https://neovim.io/doc/user/editing.html#gf">gf</a> mechanism left me wanting, due to the types of navigation target and the vagaries of how they are expressed. With a little configuration though, (which is still experimental at this stage, as I'm still learning) I've improved the situation.</p>
+<p>I added some <a href="https://neovim.io/doc/user/usr_41.html#_writing-a-filetype-plugin">ftplugin</a> configuration specific to CDS files, in an <code>after/ftplugin/cds.lua</code> file within my Neovim config, and it looks like this:</p>
+<pre class="language-lua" tabindex="0"><code class="language-lua"><span class="token comment">-- Settings to be able to navigate to cds resources in Node.js modules</span>
+
+<span class="token comment">-- Given a path p, add it to the 'path' if it exists</span>
+<span class="token keyword">local</span> addpath <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span>
+  <span class="token keyword">if</span> vim<span class="token punctuation">.</span>uv<span class="token punctuation">.</span><span class="token function">fs_stat</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span> <span class="token keyword">then</span> vim<span class="token punctuation">.</span>opt<span class="token punctuation">.</span>path<span class="token punctuation">:</span><span class="token function">append</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span> <span class="token keyword">end</span>
+<span class="token keyword">end</span>
+
+<span class="token comment">-- Auto add .cds extension to files if necessary when nav with gf</span>
+vim<span class="token punctuation">.</span>opt<span class="token punctuation">.</span>suffixesadd <span class="token operator">=</span> <span class="token string">'.cds'</span>
+
+<span class="token comment">-- Ensure that the literal @ symbol is treated as part of a filename</span>
+<span class="token comment">-- (required as the CAP module names are in the @sap namespace)</span>
+vim<span class="token punctuation">.</span>opt<span class="token punctuation">.</span>isfname<span class="token punctuation">:</span>append <span class="token string">'@-@'</span>
+
+<span class="token comment">-- The standard module location</span>
+<span class="token keyword">local</span> moduledir <span class="token operator">=</span> <span class="token string">'/node_modules'</span>
+
+<span class="token comment">-- If a project-local npm install has been executed then projpath</span>
+<span class="token comment">-- will reflect the project-local node_modules dir</span>
+<span class="token keyword">local</span> projpath <span class="token operator">=</span> vim<span class="token punctuation">.</span>fs<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'package.json'</span><span class="token punctuation">)</span> <span class="token operator">..</span> moduledir
+
+<span class="token comment">-- We can also add the CAP global based node_modules dir,</span>
+<span class="token comment">-- based on the location of the 'cds' executable</span>
+<span class="token keyword">local</span> cdsdkpath <span class="token operator">=</span> vim<span class="token punctuation">.</span>fs<span class="token punctuation">.</span><span class="token function">dirname</span><span class="token punctuation">(</span>vim<span class="token punctuation">.</span>fn<span class="token punctuation">.</span><span class="token function">exepath</span><span class="token punctuation">(</span><span class="token string">'cds'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token operator">..</span> <span class="token string">'/../lib/node_modules/@sap/cds-dk'</span>
+    <span class="token operator">..</span> moduledir
+
+<span class="token comment">-- Add them if they exist</span>
+<span class="token function">addpath</span><span class="token punctuation">(</span>projpath<span class="token punctuation">)</span>
+<span class="token function">addpath</span><span class="token punctuation">(</span>cdsdkpath<span class="token punctuation">)</span></code></pre>
+<p>Here's a quick summary:</p>
+<p>I have a simple function <code>addpath</code> which will add a (path) value to <code>path</code> option, which the help describes as &quot;a list of directories which will be searched when using <code>gf</code> ... and other commands&quot;. The function uses <a href="https://neovim.io/doc/user/lua.html#vim.fs.exists()">uv.fs_stat</a> to ensure the directory actually exists before adding it.</p>
+<p>The <code>suffixesadd</code> option (via <a href="https://neovim.io/doc/user/options.html#'suffixesadd'">vim.opt.suffixesadd</a>) is also related to the use of <code>gf</code> and is a &quot;comma-separated list of suffixes, which are used when searching for a file for the <code>gf</code>, <code>[I</code>, etc. commands&quot;. So here I add <code>.cds</code> to this option for the case where an extension isn't given - like in this case:</p>
+<pre class="language-cds" tabindex="0"><code class="language-cds"><span class="token using keyword">using</span> { sap.capire.bookshop <span class="token cqlkeywords keyword">as</span> my } <span class="token from keyword">from</span> '../db/schema';</code></pre>
+<blockquote>
+<p>The extension is omitted here as a sort of CAP best practice, and could in fact be <code>.csn</code>, the compiled machine-readable equivalent of CDL (the human-readable language used in CDS model files). But I'll cross that bridge when I come to it.</p>
+</blockquote>
+<p>That's it with regards to handling navigation to other CDS model files. But navigation to Node.js modules requires a bit more fettling.</p>
+<p>The CAP modules are all in the <code>sap</code> namespace. Namespaces, or <a href="https://docs.npmjs.com/about-scopes">scopes</a>, are prefixed with the <code>@</code> symbol (as in <code>@sap/cds</code>, for example). When modules are installed, in the <code>node_modules/</code> directory, the <code>@</code>-prefixed namespace forms part of the directory structure. So in this <code>sample</code> project, after running <code>npm install</code>, here's where <code>@sap/cds/common</code> is to be found:</p>
+<pre class="language-text" tabindex="0"><code class="language-text">node_modules/
+├── @cap-js
+│   ├── cds-types
+│   │   ├── ...
+│   │   └── scripts
+│   ├── db-service
+│   │   ├── ...
+│   │   └── package.json
+│   └── sqlite
+│       ├── ...
+│       └── package.json
+└── @sap
+    └── cds
+        ├── CHANGELOG.md
+        ├── LICENSE
+        ├── README.md
+        ├── _i18n
+        ├── app
+        ├── bin
+  --->  ├── common.cds
+        ├── eslint.config.mjs
+        ├── lib
+        ├── libx
+        ├── package.json
+        ├── server.js
+        ├── srv
+        └── tasks</code></pre>
+<p>That means I need to add the literal <code>@</code> symbol to the <a href="https://neovim.io/doc/user/options.html#'isfname'">isfname</a> option, which denotes the characters included in filenames. If we look at the default value for <code>isfname</code> (with <code>:set isfname?</code>) we see this:</p>
+<pre class="language-text" tabindex="0"><code class="language-text">@,48-57,/,.,-,_,+,,,#,$,%,~,=</code></pre>
+<p>But <code>@</code> here represents &quot;alpha characters&quot;, and to have the actual <code>@</code> symbol included, one needs to add <code>@-@</code>.</p>
+<p>Once that is done, it's just a question of determining:</p>
+<ul>
+<li>the CAP Node.js project's root directory (with <code>vim.fs.root(0, 'package.json')</code>)</li>
+<li>the location of the globally installed <code>@sap/cds-dk</code> module, based on where the <code>cds</code> executable can be found</li>
+</ul>
+<p>Then, <code>/node_modules</code> is appended to each, and they're both passed to the <code>addpath</code> function defined earlier.</p>
+<p>Once either or both these paths are in the <code>path</code> option (depending on whether they exist or not), <code>gf</code> based navigation can proceed successfully!</p>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>This was a quick configuration hack in an area of Neovim (well, Vim, I guess) that I hadn't previously much experience in. So it may need some more tweaking. But for now, it works well, as shown here:</p>
+<p><img src="content/images/2025/08/neovim-nav.gif" alt="navigation in Neovim"></p>
+<blockquote>
+<p>In VS Code each newly navigated-to resource was opened in a separate tab by default. In Neovim they're opened in the same buffer, so to return to the previous resource in the &quot;jump list&quot; one can use <code>ctrl-o</code>.</p>
+</blockquote>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="/website/blog/posts/2025/06/10/a-modern-and-clean-neovim-setup-for-cap-node.js-configuration-and-diagnostics/">A modern and clean Neovim setup for CAP Node.js - configuration and diagnostics</a></li>
+<li><a href="/website/blog/posts/2025/08/04/excluding-specific-diagnostics-in-neovim/">Excluding specific diagnostics in Neovim</a></li>
+</ul>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/website/blog/2025-08-04-excluding-specific-diagnostics-in-neovim/">Excluding specific diagnostics in Neovim</a></li>
+</ul>
+
+			</heading-anchors>
+		</main>
+
+		<!-- This page `/blog/2025-08-06-neovim-configuration-for-file-and-module-navigation-in-cds-models/` was built on 2025-08-27T07:48:25.144Z -->
+		<script type="module" src="/website/dist/xbxy_EL6cU.js"></script>
+	</body>
+</html>
