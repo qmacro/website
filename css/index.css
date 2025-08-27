@@ -167,11 +167,15 @@ table th {
 	padding-right: 1em;
 }
 
-/* Overriding some Prism settings */
-pre,code[class*="language-"] {
+pre,
+code {
 	font-family: var(--font-family-monospace);
-	font-size: 0.9em !important;
+	color: seagreen;
+}
+
+pre,code[class*="language-"] {
 	line-height: 1.2em !important;
+	font-size: 0.93em !important;
 }
 
 pre:not([class*="language-"]) {
