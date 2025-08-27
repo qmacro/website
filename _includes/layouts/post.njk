@@ -18,6 +18,8 @@ layout: layouts/base.njk
 
 {{ content | safe }}
 
+{% include "utterances.html" %}
+
 {%- if collections.posts %}
 {%- set previousPost = collections.posts | getPreviousCollectionItem %}
 {%- set nextPost = collections.posts | getNextCollectionItem %}
