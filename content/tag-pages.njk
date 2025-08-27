@@ -18,6 +18,7 @@ const eleventyComputed = {
 		return `/tags/${this.slugify(data.tag)}/`;
 	}
 };
+const layout = "layouts/base.njk";
 ---
 <h1>Tagged “{{ tag }}”</h1>
 
