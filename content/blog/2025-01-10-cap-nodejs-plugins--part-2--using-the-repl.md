@@ -13,14 +13,12 @@ For information on the series and links to all resources, see the [CAP Node.js P
 
 > The examples in this post are based on CAP Node.js at release 8.6 ([December 2024][2]).
 
-<a name="picking-up-from-where-we-left-off-last-time"></a>
 ## Picking up from where we left off last time
 
 Now we have a skeleton plugin package set up and wired in (which we did in part 1), we can turn our attention to how they can be used to enhance the standard CAP service processing.
 
 Let's have our plugin bring about some behaviour for a custom annotation we'll add to one of the elements in one of the entities in our [service][5].
 
-<a name="adding-a-custom-annotation"></a>
 ## Adding a custom annotation
 
 If we annotate an element, for example the `genre` element of the `Books` entity, with `@loud`, that signifies that the value of that element should be returned in UPPER CASE.
@@ -90,7 +88,6 @@ genre: {'@loud': true, type: cds.String}
 
 Using the annotation as the property key means that it won't clash with anything standard. This is so simple that it's easy to gloss over this detail and miss the beauty of the design here.
 
-<a name="starting-up-the-cds-repl-and-a-server-instance"></a>
 ## Starting up the cds REPL and a server instance
 
 We can use the cds REPL to manually and interactively explore the service and everything it contains. The cds REPL has had some [recent enhancements in the December 2024][3] release, so we'll explore some of those throughout this session.
@@ -144,13 +141,11 @@ At this point we can start [querying](https://cap.cloud.sap/docs/node.js/cds-ql)
 
 But instead of querying the data, what we really want to do in this session is explore the service structure, bearing in mind that, usually, a service contains one or more entities, and those entities contain one or more elements (fields).
 
-<a name="new-repl-options"></a>
 > Instead of using `cds.test()` there are features introduced to the cds REPL in the December 2024 release which makes this more comfortable; use either of these approaches:
 >
 > * `cds repl --run .` in the project directory (`cds r -r .` is the short version)
 > * `.run .` at the REPL prompt
 
-<a name="exploring-the-cds-facade"></a>
 ## Exploring the cds facade
 
 Just like we used the `cds` facade to discover the values of `cds.root` and `cds.home` [in part 1][4], we can use it to look at the services.
@@ -225,7 +220,6 @@ cds: cds {
 }
 ```
 
-<a name="a-first-look-at-the-services"></a>
 ## A first look at the service(s)
 
 If we enter `cds.services` at the REPL prompt, we'll see an avalanche of information, ending like this:
@@ -289,7 +283,6 @@ We can use it like this: `[...cds.services].map(basicInfo)`.
 
 Anyway, let's keep going. In CAP, [everything is a service][7], which explains why we see the SQLite database mechanism appearing here too. But we're interested in our `Bookshop` service, which incidentally has the `kind` value of `app-service`.
 
-<a name="digging-deeper-into-the-bookshop-service"></a>
 ## Digging deeper into the Bookshop service
 
 To make it more convenient for us to work with, let's get a handle on that service object using a [destructuring assignment][11] like this:
@@ -384,7 +377,6 @@ We can confirm that with `entities.length`:
 2
 ```
 
-<a name="looking-at-individual-entities-and-their-elements"></a>
 ## Looking at individual entities and their elements
 
 Let's look at some of the aspects of the entities using our useful basic info function:
@@ -421,7 +413,6 @@ stock [ 'type' ]
 
 These are the elements (fields) of our `Book` entity. And look - there's our custom `@loud` annotation on the `genre` element!
 
-<a name="identifying-the-elements-annotated-with-loud"></a>
 ## Identifying the elements annotated with @loud
 
 Let's define a function `loudElements` that we can use when mapping over the entities to return a list of entities and any corresponding elements that have been annotated with `@loud`:
@@ -477,7 +468,6 @@ We only annotated the `genre` element of the `Books` entity, so this makes sense
 
 This way we can identify those entities upon which we need to focus.
 
-<a name="wrapping-up"></a>
 ## Wrapping up
 
 This post just scratches the surface of the power that the cds REPL gives us as developers, to explore, understand, manipulate and write code against the services and other artifacts presented in what we're building, both in _our_ user space, but also in the CAP framework's "kernel" space (see the [Kernel space and user space][13] section of [Five reasons to use CAP][14]).
@@ -486,7 +476,6 @@ In [the third and final part][15] to this series we can use the knowledge we've 
 
 ---
 
-<a name="appendix-a-turning-down-the-logging"></a>
 ## Appendix A - Turning down the logging
 
 The reason this line appears each and every time we start up the service, even in the REPL:

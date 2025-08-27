@@ -13,7 +13,6 @@ For information on the series and links to all resources, see the [CAP Node.js P
 
 > The examples in this post are based on CAP Node.js at release 8.6 ([December 2024][2]).
 
-<a name="continuing-from-where-we-left-off-last-time"></a>
 ## Continuing from where we left off last time
 
 We finished part 2 [with a function][3] that we named `loudElements` which gave us a summary of entities in our service, and which elements (if any) were annotated with `@loud`.
@@ -353,8 +352,6 @@ And that's it for this mini-series too. Of course, this is just scratching the s
 * the REPL is one of CAP's greatest superpowers, and can be one of your superpowers too
 * introspection is straightforward and brings you and your understanding closer to the CAP mechanics and philosophy
 * getting a plugin to do something doesn't require any "special" code, it's just events and handlers all the way down
-
----
 
 [1]: /blog/posts/2024/12/30/cap-node.js-plugins/
 [2]: https://cap.cloud.sap/docs/releases/dec24
