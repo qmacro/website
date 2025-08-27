@@ -349,9 +349,9 @@ That's pretty much it!
 
 And that's it for this mini-series too. Of course, this is just scratching the surface of what's possible, but hopefully you can see how straightforward it is to create your own plugin. And perhaps the main takeaways from what we've seen are:
 
-* the REPL is one of CAP's greatest superpowers, and can be one of your superpowers too
-* introspection is straightforward and brings you and your understanding closer to the CAP mechanics and philosophy
-* getting a plugin to do something doesn't require any "special" code, it's just events and handlers all the way down
+- the REPL is one of CAP's greatest superpowers, and can be one of your superpowers too
+- introspection is straightforward and brings you and your understanding closer to the CAP mechanics and philosophy
+- getting a plugin to do something doesn't require any "special" code, it's just events and handlers all the way down
 
 [1]: /blog/posts/2024/12/30/cap-node.js-plugins/
 [2]: https://cap.cloud.sap/docs/releases/dec24

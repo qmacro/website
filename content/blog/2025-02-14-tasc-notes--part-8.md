@@ -369,7 +369,7 @@ Adding an arrow to represent the pointer in this relationship:
 Authors -> { ID, name, books }
 ```
 
-allows us to think about this, with respect to `Authors`, as follows (in Daniel's words): "_from all your children (tuples), we want these attributes_".
+allows us to think about this, with respect to `Authors`, as follows (in Daniel's words): "*from all your children (tuples), we want these attributes*".
 
 So far so good. But we're now in a better position to project that thinking to the next level, thus:
 
@@ -463,7 +463,7 @@ This is what I call the "swan effect": what we see is graceful elegance, what we
 
 ![picture of a swan][34]
 
-_A mute swan, picture courtesy of [Wikimedia Commons][35]_
+*A mute swan, picture courtesy of [Wikimedia Commons][35]*
 
 The graceful elegance of `SELECT from Authors { ID, name, books { ID, name } }` is only possible because of the furious paddling going on under the covers - here's that SQL statement from the DEBUG output in a more readable format:
 

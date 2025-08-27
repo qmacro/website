@@ -12,10 +12,10 @@ For all resources related to this series, see the post [The Art and Science of C
 
 [This episode][1] started with a review of the previous episode (part 6), based on the [notes for that episode][3]. We continued to look back more generally over the previous episodes to pick out the main themes around which we wove a (hopefully) coherent story:
 
-* Domain-driven design
-* The importance of modelling
-* Aspect-oriented programming
-* Artistic & scientific principles
+- Domain-driven design
+- The importance of modelling
+- Aspect-oriented programming
+- Artistic & scientific principles
 
 During this review, at around [18:25][4], it was almost inevitable that we revisited the Class vs Prototype conversation, dwelling on the differences, and the importance of prototypical inheritance (the power of which is also reflected in the concept of [mixins][5]). But before we got to diving into that, we took a quick detour to revisit the theme of code generation.
 
@@ -52,8 +52,8 @@ Not only that, but such qualities allow us to think about processing large quant
 
 Core functional programming tenets such as immutability and the related concept of pure functions, i.e. those that are side-effect free, principles that allows mechanisms such as function chains (such as ones used in MapReduce) are consequently found in CAP too:
 
-* [Services][16] are stateless
-* [Data][17] is passive
+- [Services][16] are stateless
+- [Data][17] is passive
 
 On the topic of passive data, Daniel relates the story of an esteemed colleague extolling the virtues of _non-anemic_ objects, while Daniel himself takes the opposite approach. While the adjective [anemic][18] is an established one, it is a pejorative description based on a viewpoint held not least by luminaries such as Martin Fowler [<sup>3</sup>](#footnotes), and I suggest we use a different, more positive term for what we're striving for here. "Pure objects", anyone?
 
@@ -244,7 +244,7 @@ If we were to doggedly persist with such an approach, we would still have the ug
 
 ![Steve Porcaro of Toto with a modular synthesizer in 1982][31].
 
-_(Yes, that's Steve Porcaro of Toto, keyboard playing brother of Jeff Porcaro, creator of possibly the coolest drum pattern ever, the [Rosanna shuffle][32])_.
+*(Yes, that's Steve Porcaro of Toto, keyboard playing brother of Jeff Porcaro, creator of possibly the coolest drum pattern ever, the [Rosanna shuffle][32])*.
 
 ### The right way
 
@@ -278,9 +278,9 @@ sap.capire.bookshop.Books.changes
 
 which has a name made up from:
 
-* the namespace `sap.capire.bookshop`
-* the entity name `Books`
-* the element `changes`
+- the namespace `sap.capire.bookshop`
+- the entity name `Books`
+- the element `changes`
 
 The eagle-eyed amongst you will also have of course spotted the `Authors` equivalent in that definition list too, as `Authors` was also adorned with the `managed` aspect:
 
@@ -326,8 +326,8 @@ extend managed with {
 
 CAP's query language, [CQL][39], is based upon and extends SQL in two important directions:
 
-* nested projections
-* path expressions (along associations)
+- nested projections
+- path expressions (along associations)
 
 From a science perspective, Daniel and the team were keen to validate the idea and realisation of CDS models, and CQL in particular. To this end, behold:
 

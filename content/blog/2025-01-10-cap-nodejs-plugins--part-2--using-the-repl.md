@@ -143,8 +143,8 @@ But instead of querying the data, what we really want to do in this session is e
 
 > Instead of using `cds.test()` there are features introduced to the cds REPL in the December 2024 release which makes this more comfortable; use either of these approaches:
 >
-> * `cds repl --run .` in the project directory (`cds r -r .` is the short version)
-> * `.run .` at the REPL prompt
+> - `cds repl --run .` in the project directory (`cds r -r .` is the short version)
+> - `.run .` at the REPL prompt
 
 ## Exploring the cds facade
 
@@ -427,9 +427,9 @@ const loudElements = en => ({
 
 This takes an entity `en`, and returns an object with three properties:
 
-* the entity's name
-* the entire entity object
-* a list of zero or more element names that have the `@loud` annotation
+- the entity's name
+- the entire entity object
+- a list of zero or more element names that have the `@loud` annotation
 
 This was both possible and easy because of the wonderfully beautiful and simple way annotations are processed and stored.
 
