@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>More thoughts to ponder</title>
-		<meta name="description" content="Reserving the right to be wrong.">
+		<meta name="description" content="Here are two or three thoughtbites that I’ve come across over the past few days and that have stayed with me. I just thought I’d share them here as it’s the weekend and often a good time to think about things.">
 		<link rel="alternate" href="/website/feed/feed.xml" type="application/atom+xml" title="DJ Adams">
 		<link rel="icon" type="image/x-icon" href="/website/images/favicon.ico">
 		
@@ -539,22 +539,18 @@ pre[class*="language-diff-"] {
 	<li><a href="/website/tags/rss-tag/" class="post-tag">rss-tag</a></li>
 </ul>
 
-<p class="post-description-main"></p>
+<p class="post-description-main">Here are two or three thoughtbites that I’ve come across over the past few days and that have stayed with me. I just thought I’d share them here as it’s the weekend and often a good time to think about things.</p>
 
-<p>Here are two or three, er, thoughtbites, that I’ve come across over the past few days and that have stayed with me. I just thought I’d share them here as it’s the weekend and often a good time to think about things.</p>
-<p><strong>Open thinking about deep-linking</strong></p>
+<h2 id="open-thinking-about-deep-linking">Open thinking about deep-linking</h2>
 <p>Tim Bray’s <a href="http://www.w3.org/2001/tag/ilist#deepLinking-25">strawman defence</a> of the principle that ‘deep linking’ on the web isn’t illegal. It’s a wonderfully calm and simple aspirin for the anger and frustration that builds up inside when one reads about silly legal action about ‘deep-linking’.</p>
-<p><strong>RDF, define thyself</strong></p>
+<h2 id="rdf-define-thyself">RDF, define thyself</h2>
 <p>In Sean B. Palmer’s document <a href="http://infomesh.net/2001/swintro/">The Semantic Web: An Introduction</a> (highly recommended!), RDF Schema is <a href="http://infomesh.net/2001/swintro/#simpleData">introduced</a>, using (amongst other things) this snippet of RDF (read “rdf:type” as “is a”):</p>
-<pre><code>rdfs:Resource rdf:type rdfs:Class . rdfs:Class rdf:type rdfs:Class . rdf:Property rdf:type rdfs:Class . rdf:type rdf:type rdf:Property .
-</code></pre>
+<pre class="language-rdf" tabindex="0"><code class="language-rdf">rdfs:Resource rdf:type rdfs:Class . rdfs:Class rdf:type rdfs:Class . rdf:Property rdf:type rdfs:Class . rdf:type rdf:type rdf:Property .</code></pre>
 <p>I don’t know about you, but I had to go and have a sit down to consider the implications after reading that.</p>
-<p><strong>Using namespaces in code</strong></p>
+<h2 id="using-namespaces-in-code">Using namespaces in code</h2>
 <p>Last week on <a href="irc://irc.openprojects.net/rss-dev">#rss-dev</a>, Ken MacLeod pointed to a <a href="http://lists.w3.org/Archives/Public/xml-names-editor/2002May/0009.html" title="A Plea For Sanity">post</a> by Dan Connolly regarding namespaces. Ken <a href="http://www.peerfear.org/chump/rss-dev/2002/09/12/2002-09-12.xml">said</a>:</p>
 <blockquote>
 <p>A very key point (I think) drawn out in this article is that namespaces are used only to derive a (URI+localname) pair — namespaces should never be considered seperate from the element name they specify. … A namespace and localname make a single item of data, distinct from any other combination of namespace and localname.</p>
-</blockquote>
-<blockquote>
 <p>Libraries and applications (tools) should not try to store a namespace as one “object” and try to link all of the names as “children” of those objects. So, if you’re working in a language that’s string-happy, like Tcl or Perl, the first thing you should do is take the namespace and element name and put them together and use them like that from then on, “{URI}LocalName” works well in Perl, for example.</p>
 </blockquote>
 <p>Sounds obvious when you grok it, but (for me at least) it was a refreshing way to look at the whole issue of namespaces and how they’re represented in XML and used in deserialised data structures.</p>
@@ -569,7 +565,7 @@ pre[class*="language-diff-"] {
 			</heading-anchors>
 		</main>
 
-		<!-- This page `/blog/posts/2002/09/21/more-thoughts-to-ponder/` was built on 2025-08-28T08:41:24.160Z -->
+		<!-- This page `/blog/posts/2002/09/21/more-thoughts-to-ponder/` was built on 2025-08-28T15:42:24.031Z -->
 		<script type="module" src="/website/dist/xbxy_EL6cU.js"></script>
 	</body>
 </html>

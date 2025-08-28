@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>The mist is clearing ...</title>
-		<meta name="description" content="Reserving the right to be wrong.">
+		<meta name="description" content="On my continuing quest to grok REST.">
 		<link rel="alternate" href="/website/feed/feed.xml" type="application/atom+xml" title="DJ Adams">
 		<link rel="icon" type="image/x-icon" href="/website/images/favicon.ico">
 		
@@ -537,30 +537,28 @@ pre[class*="language-diff-"] {
 	<li><time datetime="2002-07-15">15 July 2002</time></li>
 </ul>
 
-<p class="post-description-main"></p>
+<p class="post-description-main">On my continuing quest to grok REST.</p>
 
-<p>… but I’m not sure yet whether what’s being revealed is a bright sun, a dense forest, or more mist. In any case, it’s an interesting journey, and on the whole, enlightening.</p>
+<p>The mist is clearing but I’m not sure yet whether what’s being revealed is a bright sun, a dense forest, or more mist. In any case, it’s an interesting journey, and on the whole, enlightening.</p>
 <p>I’m trying to understand more about <a href="http://internet.conveyor.com/RESTwiki/moin.cgi/FrontPage" title="The REST Wiki's front page">REST</a>. To that end, I’ve just written a little <em>RESTful</em> interface to <a href="http://www.fsck.com/projects/rt/" title="RT: Request Tracker">RT</a> (Request Tracker), in the form of an Apache mod_perl handler, so that I can create new and correspond on existing tickets via a simple interface that I can call from my other apps.</p>
 <p>Creating a ticket:</p>
-<pre><code>POST /ticket
+<pre class="language-text" tabindex="0"><code class="language-text">POST /ticket
 (queue, subject, email, and initial ticket query supplied in body)
 
 ...
 
 201 Created
-Location: /ticket/42
-</code></pre>
+Location: /ticket/42</code></pre>
 <p>Corresponding on a ticket:</p>
-<pre><code>PUT /ticket/42
+<pre class="language-text" tabindex="0"><code class="language-text">PUT /ticket/42
 (correspondence supplied in body, will be appended to the ticket history)
 
 ...
 
-200 OK
-</code></pre>
+200 OK</code></pre>
 <p>(Hmm, perhaps that should that be PUT to <code>/ticket/42/history</code>, returning a 201 with a unique URI for that particular piece of correspondence, e.g. <code>/ticket/42/history/20020715115442</code>).</p>
 <p>Getting info on a ticket:</p>
-<pre><code>GET /ticket/42
+<pre class="language-text" tabindex="0"><code class="language-text">GET /ticket/42
 or
 GET /ticket/42/basics
 or
@@ -569,8 +567,7 @@ GET /ticket/42/history
 ...
 
 200 OK
-(ticket info)
-</code></pre>
+(ticket info)</code></pre>
 <p>I’m glad I had my copy of the excellent <a href="http://www.oreilly.com/catalog/wrapmod/" title="Book's home on O'Reilly">Writing Apache Modules with Perl and C</a> close to hand, to remind me of things like <code>$r-&gt;custom_response()</code> and <code>Apache::Constants-&gt;export(qw(HTTP_CREATED))</code>.</p>
 
 
@@ -583,7 +580,7 @@ GET /ticket/42/history
 			</heading-anchors>
 		</main>
 
-		<!-- This page `/blog/posts/2002/07/15/the-mist-is-clearing/` was built on 2025-08-28T08:41:24.159Z -->
+		<!-- This page `/blog/posts/2002/07/15/the-mist-is-clearing/` was built on 2025-08-28T15:42:24.029Z -->
 		<script type="module" src="/website/dist/xbxy_EL6cU.js"></script>
 	</body>
 </html>

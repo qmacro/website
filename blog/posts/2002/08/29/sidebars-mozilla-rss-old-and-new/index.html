@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Sidebars, Mozilla, RSS: old and new</title>
-		<meta name="description" content="Reserving the right to be wrong.">
+		<meta name="description" content="RSS, RDF, XUL, XSLT and more.">
 		<link rel="alternate" href="/website/feed/feed.xml" type="application/atom+xml" title="DJ Adams">
 		<link rel="icon" type="image/x-icon" href="/website/images/favicon.ico">
 		
@@ -541,19 +541,18 @@ pre[class*="language-diff-"] {
 	<li><a href="/website/tags/xul/" class="post-tag">xul</a></li>
 </ul>
 
-<p class="post-description-main"></p>
+<p class="post-description-main">RSS, RDF, XUL, XSLT and more.</p>
 
 <p>Back in the spring of 2000, I wrote <a href="/website/~dj/cgi-bin/mysidebar.pl" title="re-animated non-working bit of reminiscence">MySidebar</a>, a concoction of Mozilla sidebars, <a href="http://www.xulplanet.com/">XUL</a> and RSS. It allowed you to specify an RSS URL and would generate XUL from it and install it in Mozilla’s sidebar. (XUL involves RDF. The interconnectedness of all things, eh?)</p>
 <p>Fozbaca recently <a href="http://fozbaca.org/archives/2002_08_17.shtml#002612">pointed</a> to something <a href="http://www.theonering.net/staff/corvar/software/mozilla.html">similar</a>, which reminded me about the whole thing. I’ve just downloaded Mozilla 1.1, and decided to revisit the area. Things have changed – you can now plonk straight HTML into the sidebar, rather than have to use XUL. Mmmm.</p>
 <p>So, I’ve had a bit of fun glueing ideas I read about from <a href="http://diveintomark.org/">Mark</a> and <a href="http://udell.roninhouse.com/">Jon</a>. What I’ve ended up with is a Mozilla toolbar button that you can click while viewing a weblog that <a href="/website/blog/posts/2002/May/31#htmllink">points to its own RSS feed</a>. The button’s link is to Javascript, adapted from Mark’s <a href="http://diveintomark.org/archives/2002/05/31.html#more_on_rss_autodiscovery">auto-subscribe bookmarklet</a>. On discovering an RSS feed (and the title of the blog page), it then constructs an XSLT pipeline URL that Jon <a href="http://weblog.infoworld.com/udell/2002/07/17.html#a341">demonstrated last month</a>. The URL looks like this (split up for easy reading):</p>
-<pre><code>http://www.pipetree.com/service/xslt
+<pre class="language-text" tabindex="0"><code class="language-text">http://www.pipetree.com/service/xslt
 ?
 xmlfile=*http://url/of/rss.feed*
-&amp;
-xslfile=http://www.pipetree.com/~dj/rss.xsl
-</code></pre>
-<p>The /service/xslt on pipetree is something very similar to the <a href="http://www.w3.org/2001/05/xslt">W3C XSLT Service</a> that Jon used. I <a href="/website/~dj/XSLT.pm">wrote my own</a> for various reasons. It’s a lot simpler, and probably a lot dafter. The XSLT stylesheet specified is a <a href="/website/~dj/rss.xsl">very simple one</a> which points to some <a href="/website/~dj/rss.css">even simpler CSS</a> to make the RSS-rendered-into-HTML … small enough to fit in Mozilla’s sidebar, into which it goes with the call to sidebar.addPanel() at the end of the <a href="/website/~dj/addtosidebar.js">Javascript</a> where all this pipelining started out.</p>
-<p>It’s not that efficient, probably not that useful in the long run, but is certainly fun and allows me to turn my Mozilla into a sort of RSS newsreader. If you want to have a go, you can drag the Javascript link from <a href="/website/~dj/sidebar.html">here</a>. Feel free to improve things!</p>
+&
+xslfile=http://www.pipetree.com/~dj/rss.xsl</code></pre>
+<p>The /service/xslt on pipetree is something very similar to the <a href="http://www.w3.org/2001/05/xslt">W3C XSLT Service</a> that Jon used. I <a href="/website/~dj/XSLT.pm">wrote my own</a> for various reasons. It’s a lot simpler, and probably a lot dafter. The XSLT stylesheet specified is a <a href="/website/~dj/rss.xsl">very simple one</a> which points to some <a href="/website/~dj/rss.css">even simpler CSS</a> to make the RSS-rendered-into-HTML … small enough to fit in Mozilla’s sidebar, into which it goes with the call to sidebar.addPanel() at the end of the <a href="https://web.archive.org/web/20060105094402/http://www.pipetree.com/~dj/sidebar.js">Javascript</a> where all this pipelining started out.</p>
+<p>It’s not that efficient, probably not that useful in the long run, but is certainly fun and allows me to turn my Mozilla into a sort of RSS newsreader. If you want to have a go, you can drag the Javascript link from <a href="https://web.archive.org/web/20060105094402/http://www.pipetree.com/~dj/sidebar.html">here</a>. Feel free to improve things!</p>
 
 
 
@@ -565,7 +564,7 @@ xslfile=http://www.pipetree.com/~dj/rss.xsl
 			</heading-anchors>
 		</main>
 
-		<!-- This page `/blog/posts/2002/08/29/sidebars-mozilla-rss-old-and-new/` was built on 2025-08-28T08:41:24.160Z -->
+		<!-- This page `/blog/posts/2002/08/29/sidebars-mozilla-rss-old-and-new/` was built on 2025-08-28T15:42:24.029Z -->
 		<script type="module" src="/website/dist/xbxy_EL6cU.js"></script>
 	</body>
 </html>
