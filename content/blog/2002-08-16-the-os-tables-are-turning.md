@@ -1,6 +1,7 @@
 ---
 date: 2002-08-16
 title: The OS tables are turning...
+description: The origins of one of my favourite phrases "Does not work on Windows".
 ---
 
 
@@ -11,5 +12,3 @@ About to package the thing up to take it back, I passed the house server running
 The tables have turned. In times past, it used to be that peripherals Just Worked with Windows (mostly because the vendors targeted the drivers to that platform). Not any more.
 
 I’m a happy Linux user.
-
-

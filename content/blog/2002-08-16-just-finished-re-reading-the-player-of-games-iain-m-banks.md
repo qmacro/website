@@ -1,6 +1,7 @@
 ---
 date: 2002-08-16
 title: 'Just finished re-reading: The Player Of Games (Iain M Banks)'
+description: Some thoughts on The Culture.
 ---
 
 
@@ -13,5 +14,3 @@ But what struck me most this time around was the way that I, the reader, natural
 A great read.
 
 I wonder how I could reuse this blog item as a review item in the book’s review section on Amazon? Hmm, how about an RSS 1.0 module and Amazon binding in support for that?
-
-

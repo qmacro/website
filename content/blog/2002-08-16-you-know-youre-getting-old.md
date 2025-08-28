@@ -1,6 +1,7 @@
 ---
 date: 2002-08-16
 title: You know you're getting old ...
+description: Looking back on this year's OSCON.
 ---
 
 
@@ -9,5 +10,3 @@ title: You know you're getting old ...
 It was as much the opportunities to meet and chat with other like-minded individuals, exchange thoughts and ideas, and generally make new friends, as it was the talks and tutorials that I (and probably many other attendees) valued there.
 
 Needless to say, I also grabbed the chance to take my annual fill of U.S. food – chilli dogs, cheese fries, burritos, and cinnamon and raisin bagels. Yum.
-
-

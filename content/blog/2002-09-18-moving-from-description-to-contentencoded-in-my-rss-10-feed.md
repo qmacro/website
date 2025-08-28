@@ -1,6 +1,7 @@
 ---
 date: 2002-09-18
 title: Moving from description to content:encoded in my RSS 1.0 feed
+description: Using the mod_content module of RSS 1.0.
 ---
 
 
@@ -9,5 +10,3 @@ After spotting a [comment](http://rdfig.xmlhack.com/2002/09/18/2002-09-18.html#1
 This is something that [Jon](http://weblog.infoworld.com/udell/2002/09/09.html#a405 "Jon Udell"), [Sam](http://www.intertwingly.net/blog/2002/Sep/17#x828 "Sam Ruby") and others have done already. While [Timothy Appnel](http://tima.mplode.com/ "Timothy Appnel") asks a [good question](http://www.intertwingly.net/blog/828.html "Tim's question on Sam's site"), I’ll address it here at a later stage as [Blosxom](http://www.raelity.org/apps/blosxom) entity-encodes my HTML for me (i.e. there’s not much point trying to XSL-Transform it back).
 
 So I have modified the [RSS 1.0 feed](../../../%7Edj/qmacro.rss10) for this site to use **content:encoded** with a [stylesheet slightly modified](/~dj/rss091-to-10.xsl) from [last time](../../2002/Sep/12#tech/rss/rss10).
-
-

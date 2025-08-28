@@ -5,6 +5,7 @@ tags:
 - rdf
 - rest
 - xml
+description: Can there be native support for XML as a data type?
 ---
 
 
@@ -21,5 +22,3 @@ Now it’s clear that XML is not RDF. There’s the bootstrapping issue with RDF
 Going back to Adam’s quote that sparked this post, I am curious about the ‘native support’ of XML as a data type; my limited imagination cannot see how that might happen without some sort of serialization/deserialisation (will a term like ‘serdes’ be this decade’s equivalent of ‘modem’?). I am ready and willing to be enlightened :-) The great thing about RDF is that there is already a bounty of software (storage mechanisms, model and query tools, serializers and deserialisers) that can work with RDF in many existing programming languages.
 
 Anyway, plenty to ponder. Life is good.
-
-

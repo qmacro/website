@@ -5,6 +5,7 @@ tags:
 - rdf
 - rss-tag
 - xml
+description: It's to do with the emphasis on RDF rather than XML, in RSS.
 ---
 
 
@@ -22,14 +23,20 @@ While I’ve been looking at [the RDF in RSS](/blog/posts/2002/09/08/the-rdf-in-
 
 Well, I’ve been wondering how complicated an XML parser (yes, a namespace aware one, but that’s not significant here) would have to get to support the plethora of RSS 1.0 modules available now and in the future. To be more specific, let’s take an example. Consider the **creator** property (element) from the [Dublin Core (dc)](http://purl.org/rss/1.0/modules/dc/) module. The property is normally used by specifying a literal (a string) as its value, thus:
 
-```
+```xml
 <dc:creator>DJ Adams</dc:creator>
 ```
 
 But what about [rich content model](http://web.resource.org/rss/1.0/modules/#s3.2) usage of properties? Consider the use of this property in the [discussions](http://rss.benhammersley.com/archives/001391.html#001391) of how to splice [FOAF](http://xmlns.com/foaf/0.1/) with RSS. Dealing with a new element from a defined namespace, where the usage is of the *open tag – literal value – close tag* variety, is not that difficult when parsing based on XML events. But what about this, which is based on one of the suggestions from Dan Brickley in the discussion and further discussed [on the rdfweb-dev list](http://groups.yahoo.com/group/rdfweb-dev/message/293):
 
-```
-<dc:creator> <foaf:Person> <foaf:Name>DJ Adams</foaf:Name> <foaf:seeAlso rdf:resource='...' /> ... </foaf:Person> </dc:creator>
+```xml
+<dc:creator>
+  <foaf:Person>
+    <foaf:Name>DJ Adams</foaf:Name>
+    <foaf:seeAlso rdf:resource='...' />
+    ...
+  </foaf:Person>
+</dc:creator>
 ```
 Suddenly having to parsing this, as opposed to the simple ‘literal value’ example, is a whole new ballgame in state management (“where the hell am I *now* in this XML document and what do I do with these tags?”), and at least for this author, writing an XML parser to cope with all such data eventualities would be rather difficult in the context of XML-event based parsing.
 
@@ -39,29 +46,44 @@ There are many RDF tools, including parsers, listed on [Dave Beckett’s](http:/
 
 Simple literal value example gives:
 
-```
+```rdf
 {[//qmacro.org/about], [http://purl.org/dc/1.1/elements/creator], "DJ Adams"}
 ```
 
 In other words:
 
-```
-    /--------  creator   +----------+     | qmacro |----------->| DJ Adams |     --------/            +----------+
+```text
+/--------\  creator   +----------+
+| qmacro |----------->| DJ Adams |
+\--------/            +----------+
 ```
 
 Complex FOAF element structure example gives:
 
-```
-{[//qmacro.org/about], [http://dublincore.com/creator], (genid1)} {(genid1), [http://www.w3.org/1999/02/22-rdf-syntax-ns#type], [http://foaf.com/Person]} {(genid1), [http://foaf.com/name], "DJ Adams"} {(genid1), [http://www.w3.org/2000/01/rdf-schema#seeAlso], [http://www.pipetree.com/~dj/foaf.rdf]}
+```rdf
+{[//qmacro.org/about], [http://dublincore.com/creator], (genid1)}
+{(genid1), [http://www.w3.org/1999/02/22-rdf-syntax-ns#type], [http://foaf.com/Person]}
+{(genid1), [http://foaf.com/name], "DJ Adams"}
+{(genid1), [http://www.w3.org/2000/01/rdf-schema#seeAlso], [http://www.pipetree.com/~dj/foaf.rdf]}
 ```
 
 In other words:
 
+```text
+                                 type      /--------\
+                           +-------------->| Person |
+                           |               \--------/
+                           |
+/--------\  creator   /----------\    name      +----------+
+| qmacro |----------->|  genid1  |------------->| DJ Adams |
+\--------/            \----------/              +----------+
+                           |
+                           |               /----------\
+                           +-------------->| foaf.rdf |
+                                seeAlso    \----------/
+
 ```
-                                     type      /--------                                +-------------->| Person |                                |               --------/                                |     /--------  creator   /----------    name      +----------+     | qmacro |----------->|  genid1  |------------->| DJ Adams |     --------/            ----------/              +----------+                                |                                |               /----------                                +-------------->| foaf.rdf |                                     seeAlso    ----------/
-```
+
 (Whee! ASCII art RDF diagrams :-)
 
 So what conclusion is there to draw from this bit of rambling? For me, it’s the emphasis on *RDF*, rather than *XML*, of RSS (and in fact the subtle relationships between those three things) that is significant in itself, especially when one considers the journey to data richness that seems to demand complex (and tricky-to-parse) XML structures. And what’s more, it’s not specifically RSS that wins here. It’s *any* RDF application.
-
-
