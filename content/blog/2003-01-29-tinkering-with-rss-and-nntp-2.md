@@ -1,6 +1,7 @@
 ---
-layout: post
+date: 2003-01-29
 title: Tinkering with RSS and NNTP
+description: The beauty of open standards is that they can be adopted, remixed and combined.
 ---
 
 
@@ -14,12 +15,16 @@ Aided partly by Jon’s [Practical Internet Groupware book](http://allconsuming.
 
 As I saw it, there are two approaches to newsgroup article creation in this context, and each has its pros and cons.
 
-<dl><dt>*Send items from all weblogs to the same newsgroup*</dt><dd>This approach means that the’aggregation effect’ (stories from different weblogs) is explicit, as the posts in a single newsgroup are sourced from different RSS feeds, and you read them sequentially. [You can see this effect in the screenshot, in the highlighted public.test newsgroup (shortened to "p.test")]. It also means, however, that such a ‘collective’ newsgroup is going to be less useful for diffusion and load sharing as it’s specific to one (or a few) person’s [feed](/~dj/rss.rss) tastes.</dd><dt>Send items from each weblog to a separate newsgroup</dt><dd>While the ‘aggregation effect’ is still available (by using the newsreader’s “read next unread” function, which will normally jump from one newsgroup to the next), it’s not as in-your-face. However, with a single newsgroup for each RSS feed, there are tremendous possibilities for NNTP peer exchange of (RSS weblog item) articles and consequently load sharing in the consumption of RSS – because picking and choosing feeds remains possible at the right (newsgroup) granular level. That said, this approach doesn’t exclude the possibility of composite newsgroups which consisted of, say, finance news feeds, or feeds in similar categories, which would be interesting to more than one person.</dd></dl>After deliberation of such matters, I then wrote a very simple plugin for [Blagg](http://www.oreillynet.com/%7Erael/lang/perl/blagg), which would post each weblog item to one or more newsgroups. For my purposes, I solved the question of what to call each newsgroup by using the ‘nickname’, required for each feed, in Blagg’s **rss.dat** file which controls the aggregation activity.
+### Send items from all weblogs to the same newsgroup
 
-![Screenshot of Mozilla newsreader reading aggregated RSS items](/~dj/2003/01/nntp.png "viewing aggregated RSS-sourced news in the HTML-capable Mozilla newsreader")
+This approach means that the’aggregation effect’ (stories from different weblogs) is explicit, as the posts in a single newsgroup are sourced from different RSS feeds, and you read them sequentially. [You can see this effect in the screenshot, in the highlighted public.test newsgroup (shortened to "p.test")]. It also means, however, that such a ‘collective’ newsgroup is going to be less useful for diffusion and load sharing as it’s specific to one (or a few) person’s [feed](/~dj/rss.rss) tastes.
 
-The plugin is called [nntp](/~dj/2003/01/nntp.pl). I modified Blagg slightly so it would pass the nickname to the plugin. My version of Blagg 0+4i is [here](/~dj/2003/01/blagg.0+4i) (it has a number of other modifications too). Feel free to take the plugin and modify it to suit your purpose. It was only a bit of twiddling, but it seems to work.
+### Send items from each weblog to a separate newsgroup
+
+While the ‘aggregation effect’ is still available (by using the newsreader’s “read next unread” function, which will normally jump from one newsgroup to the next), it’s not as in-your-face. However, with a single newsgroup for each RSS feed, there are tremendous possibilities for NNTP peer exchange of (RSS weblog item) articles and consequently load sharing in the consumption of RSS – because picking and choosing feeds remains possible at the right (newsgroup) granular level. That said, this approach doesn’t exclude the possibility of composite newsgroups which consisted of, say, finance news feeds, or feeds in similar categories, which would be interesting to more than one person.</dd></dl>After deliberation of such matters, I then wrote a very simple plugin for [Blagg](http://www.oreillynet.com/%7Erael/lang/perl/blagg), which would post each weblog item to one or more newsgroups. For my purposes, I solved the question of what to call each newsgroup by using the ‘nickname’, required for each feed, in Blagg’s **rss.dat** file which controls the aggregation activity.
+
+![Screenshot of Mozilla newsreader reading aggregated RSS items](/images/2003/01/nntp.png "viewing aggregated RSS-sourced news in the HTML-capable Mozilla newsreader")
+
+The plugin is called [nntp](https://web.archive.org/web/20041015234955/http://www.pipetree.com/~dj/2003/01/nntp.pl). I modified Blagg slightly so it would pass the nickname to the plugin. My version of Blagg 0+4i is [here](https://web.archive.org/web/20041015234955/http://www.pipetree.com/~dj/2003/01/blagg.0+4i) (it has a number of other modifications too). Feel free to take the plugin and modify it to suit your purpose. It was only a bit of twiddling, but it seems to work.
 
 There are plenty of possibilities for experimentation: combining the various [weblog trackbacking mechanisms](http://www.benhammersley.com/archives/003862.html#003862) with NNTP article IDs to link articles together in a thread; replying (to the newsgroup) to an article might send a comment to the post at the source weblog. Hmmmm…
-
-

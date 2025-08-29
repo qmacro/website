@@ -1,6 +1,7 @@
 ---
-layout: post
+date: 2003-01-26
 title: The fragility of retro-engineering
+description: Having to modify my allconsuming scripts because of differences between amazon.co.uk and amazon.com data.
 ---
 
 
@@ -8,6 +9,4 @@ I just discovered that while the [CPAN](http://www.cpan.org/) module [WWW::Amazo
 
 While lamenting the fact that retro-fitting like this is like trying to put a wave into a box, I’ve made a second [patch to the module](/~dj/2003/01/Wishlist.pm.diff.txt) (the $url regex) so it can successfully find ASINs in U.S. wishlists too.
 
-I wonder when/if we will see consumable wishlist data available directly from Amazon, a la [AllConsuming’s XML directory](http://allconsuming.net/xml) [? ]()
-
-
+I wonder when/if we will see consumable wishlist data available directly from Amazon, a la [AllConsuming’s XML directory](http://allconsuming.net/xml)?

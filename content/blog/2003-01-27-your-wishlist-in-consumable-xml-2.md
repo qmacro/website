@@ -1,6 +1,7 @@
 ---
-layout: post
+date: 2003-01-27
 title: Your wishlist in 'consumable' XML
+description: Introducing a new experimental Perl module.
 ---
 
 
@@ -17,5 +18,3 @@ Note the ‘uk’ part in the path. It signifies that the wishlist is held at [a
 [http://www.pipetree.com/service/wishlist/com/11SZLJ2XQH8UE](../../../service/wishlist/com/11SZLJ2XQH8UE)
 
 It uses the [patched](../../../%7Edj/2003/01/Wishlist.pm.diff.txt) version of [WWW::Amazon::Wishlist](http://search.cpan.org/author/SIMONW/WWW-Amazon-Wishlist-0.85/) so should be ok for now with .com-based wishlists too. Of course, it’s experimental anyway (as are most of the things I post here) and is likely to explode without warning.
-
-

@@ -1,6 +1,7 @@
 ---
-layout: post
+date: 2003-01-22
 title: Content-Type and Blosxom's RSS
+description: The perils of unescaped content in feeds.
 ---
 
 
@@ -11,5 +12,3 @@ Unfortunately it broke the feed, in that none of the content was being entity-es
 Funnily enough, I was only recently talking about *link rel=’…’* tags in [Presentations, Wikis, and Site Navigation](/undefined/) last night.
 
 So apologies for those people whose readers may have choked on unescaped content for the past few hours from this site.
-
-

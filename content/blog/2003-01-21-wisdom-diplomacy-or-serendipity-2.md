@@ -1,6 +1,7 @@
 ---
-layout: post
+date: 2003-01-21
 title: Wisdom, diplomacy, or serendipity?
+description: On the architectural style(s) of allcosuming.net's API.
 ---
 
 
@@ -19,5 +20,3 @@ where the methods are “GetHourlyList()” (hourly=1) and “GetFriends()” (f
 While the actual data returned in the message body is clearly [Data::Dumper](http://www.perldoc.com/perl5.6/lib/Data/Dumper.html)ed output of the data structure that would be returned in the SOAP response, a slight change on the server side to produce the data in ‘original’ XML form would be very useful indeed for pipeline-style applications, perhaps.
 
 [Erik](http://erikbenson.com/) is using these URLs to show readers examples of response output. But I bet the potential diplomacy wasn’t lost on him.
-
-

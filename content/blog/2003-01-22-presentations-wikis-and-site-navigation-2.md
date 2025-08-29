@@ -1,6 +1,7 @@
 ---
-layout: post
+date: 2003-01-22
 title: Presentations, Wikis, and Site Navigation
+description: Why build something when there's already a standard to embrace?
 ---
 
 
@@ -14,7 +15,7 @@ I wanted to see if I could solve this problem.
 
 The [MoinMoin Wiki](http://twistedmatrix.com/users/jh.twistd/moin/moin.cgi/FrontPage) (which I [use](../../../testwiki) for documenting various things) generates *link rel=’…’* tags for each page, to point to the “Front Page”, “Glossary”, “Index” and “Help” pages that are standard within that Wiki. The Wiki markup includes [processing instructions](http://twistedmatrix.com/users/jh.twistd/moin/moin.cgi/HelpOnProcessingInstructions) that start with hash symbols (#), to control things like whether section and subsection headings should be automatically numbered or not, and so on. The *name/value* style directives are known as ‘pragmas’.
 
-![screenshot  of site navigation bar in Mozilla](/~dj/2003/01/sitenav.png)
+![screenshot  of site navigation bar in Mozilla](/images/2003/01/sitenav.png)
 
 What I did was to hack some of the MoinMoin (Python code) (a few lines added only) so that I could
 
@@ -28,5 +29,3 @@ I tweaked two MoinMoin files, [Page.py](/~dj/2003/01/Page.py.txt) and [wikiutil.
 So hurrah. We can build, present, and follow up on the presentation content in the rich hypertextual style that HTML and URIs afford, and collaborate on the content in the Wiki way.
 
 On an incidental note, I’ve also added a *link rel=’start’* tag to point to the [homepage](/qmacro) of this weblog. This is made available in Mozilla as the “Top” button in the site navigation bar.
-
-
