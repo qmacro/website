@@ -308,3 +308,8 @@ header {
 	margin-right: 1em;
 }
 
+blockquote {
+	margin: 0px;
+	padding-left: 15px;
+	border-left: 5px solid lightgray;
+}
