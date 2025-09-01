@@ -5,11 +5,129 @@
   <subtitle>This is a longer description about your blog.</subtitle>
   <link href="https://example.com/website/feed/feed.xml" rel="self" />
   <link href="https://example.com/website/" />
-  <updated>2025-08-06T00:00:00Z</updated>
+  <updated>2025-09-01T00:00:00Z</updated>
   <id>https://example.com/website/</id>
   <author>
     <name>Your Name</name>
   </author>
+  <entry>
+    <title>Auto formatting extensionless Bash scripts in Neovim</title>
+    <link href="https://example.com/website/blog/posts/2025/09/01/auto-formatting-extensionless-bash-scripts-in-neovim/" />
+    <updated>2025-09-01T00:00:00Z</updated>
+    <id>https://example.com/website/blog/posts/2025/09/01/auto-formatting-extensionless-bash-scripts-in-neovim/</id>
+    <content type="html">&lt;h2 id=&quot;background&quot;&gt;Background&lt;/h2&gt;
+&lt;p&gt;In my continuing quest to &lt;a href=&quot;https://example.com/website/blog/posts/2025/06/10/a-modern-and-clean-neovim-setup-for-cap-node.js-configuration-and-diagnostics/&quot;&gt;build out a cleaner and leaner Neovim configuration&lt;/a&gt; I turned my attention recently to improving my Bash script editing experience. For Bash there are plenty of facilities that fit into my Personal Development Environment, including &lt;code&gt;shellcheck&lt;/code&gt; and &lt;code&gt;shfmt&lt;/code&gt;, both of which I have been using for quite a while (see &lt;a href=&quot;https://example.com/website/blog/posts/2020/10/05/improving-my-shell-scripting/&quot;&gt;Improving my shell scripting&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;I decided to give the &lt;a href=&quot;https://github.com/bash-lsp/bash-language-server&quot;&gt;Bash language server&lt;/a&gt; a try. It&#39;s a super easy setup &lt;a href=&quot;https://github.com/bash-lsp/bash-language-server?tab=readme-ov-file#neovim&quot;&gt;for Neovim 0.11+&lt;/a&gt; and the &lt;a href=&quot;https://github.com/bash-lsp/bash-language-server?tab=readme-ov-file#shfmt-integration&quot;&gt;integration with shfmt&lt;/a&gt; was a feature that caught my eye in particular.&lt;/p&gt;
+&lt;p&gt;Add to this a desire to also more consciously embrace &lt;a href=&quot;https://editorconfig.org/&quot;&gt;Editorconfig&lt;/a&gt;, especially given &lt;a href=&quot;https://github.com/mvdan/sh/blob/master/cmd/shfmt/shfmt.1.scd#description&quot;&gt;shfmt&#39;s support for that&lt;/a&gt;, and I was set for a great experience.&lt;/p&gt;
+&lt;h2 id=&quot;the-perfect-storm&quot;&gt;The perfect storm&lt;/h2&gt;
+&lt;p&gt;I am of the opinion that shell scripts that are written to be executed on the command line should not have extensions. This follows a &lt;a href=&quot;https://google.github.io/styleguide/shellguide.html#s2.1-file-extensions&quot;&gt;specific guideline&lt;/a&gt; in the &lt;a href=&quot;https://google.github.io/styleguide/shellguide.html&quot;&gt;Google Shell Style Guide&lt;/a&gt;. Interpretation of shell script file[type]s is based on the &lt;a href=&quot;https://en.wikipedia.org/wiki/Shebang_(Unix)&quot;&gt;shebang&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This approach, combined with the Bash language server, its support for &lt;code&gt;shfmt&lt;/code&gt;, and a custom part of &lt;code&gt;shfmt&lt;/code&gt;&#39;s support for Editorconfig, turned out to be a small but perfect storm:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Editorconfig&#39;s approach and configuration (&lt;a href=&quot;https://spec.editorconfig.org/&quot;&gt;specification&lt;/a&gt;) is based on file extensions only and there is no provision for specifying editor settings for files without extensions&lt;/li&gt;
+&lt;li&gt;As the extensionless shell script is such a common phenomenon, support for Editorconfig within &lt;code&gt;shfmt&lt;/code&gt; has been extended to allow for special &lt;a href=&quot;https://spec.editorconfig.org/#glob-expressions&quot;&gt;section names&lt;/a&gt; in Editorconfig configuration files so that such shell scripts can be matched more generically; this support is described in the &lt;a href=&quot;https://github.com/mvdan/sh/blob/master/cmd/shfmt/shfmt.1.scd#examples&quot;&gt;Examples&lt;/a&gt; section in &lt;code&gt;shfmt&lt;/code&gt;&#39;s documentation thus:
+&lt;blockquote&gt;
+&lt;p&gt;&amp;quot;EditorConfig sections may also use &lt;code&gt;[[shell]]&lt;/code&gt; or &lt;code&gt;[[bash]]&lt;/code&gt; to match any shell or bash scripts, which is particularly useful when scripts use a shebang but no extension. Note that this feature is outside of the EditorConfig spec and may be changed in the future.&amp;quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;While it&#39;s great to have &lt;a href=&quot;https://github.com/bash-lsp/bash-language-server?tab=readme-ov-file#shfmt-integration&quot;&gt;support for shfmt&lt;/a&gt; in the Bash language server, this support does not include this non-standard (but insanely useful) &lt;code&gt;[[bash]]&lt;/code&gt; style facility for Editorconfig configuration.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Consequently, when editing shell scripts with extensionless filenames using Neovim with the Bash language server configured and &lt;code&gt;shfmt&lt;/code&gt; installed&lt;a href=&quot;https://example.com/website/blog/posts/2025/09/01/auto-formatting-extensionless-bash-scripts-in-neovim/#footnotes&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;
+I got a very odd and confusing experience.&lt;/p&gt;
+&lt;h2 id=&quot;example-of-the-issue&quot;&gt;Example of the issue&lt;/h2&gt;
+&lt;p&gt;Here&#39;s an example, based on these (reduced) Editorconfig settings in my &lt;code&gt;.editorconfig&lt;/code&gt; file:&lt;/p&gt;
+&lt;pre class=&quot;language-toml&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-toml&quot;&gt;&lt;span class=&quot;token key property&quot;&gt;root&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;*&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token key property&quot;&gt;indent_style&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; tab
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;bash&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token key property&quot;&gt;indent_size&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;token key property&quot;&gt;indent_style&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; space
+&lt;span class=&quot;token key property&quot;&gt;switch_case_indent&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;token key property&quot;&gt;binary_next_line&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;token key property&quot;&gt;space_redirects&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;and shell script files called &lt;code&gt;a&lt;/code&gt;, &lt;code&gt;b&lt;/code&gt; and &lt;code&gt;fixup&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;On the command line&lt;/em&gt;, running &lt;code&gt;shfmt&lt;/code&gt;&lt;a href=&quot;https://example.com/website/blog/posts/2025/09/01/auto-formatting-extensionless-bash-scripts-in-neovim/#footnotes&quot;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt; on each of these three files produced the expected results, in that all were formatted according to the &lt;code&gt;shfmt&lt;/code&gt;-specific settings in that &lt;code&gt;[[bash]]&lt;/code&gt; section plus of course indented with 2 spaces.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Within Neovim&lt;/em&gt;, via the Bash language server&lt;a href=&quot;https://example.com/website/blog/posts/2025/09/01/auto-formatting-extensionless-bash-scripts-in-neovim/#footnotes&quot;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt;, with shell script files &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt; everything seemed to work fine and my Bash scripts were indented appropriately with 2 spaces. When I then started to work on real shell scripts such as one called &lt;code&gt;fixup&lt;/code&gt;, things didn&#39;t work the same, and the indentation was done with tabs, not spaces (the horror!).&lt;/p&gt;
+&lt;p&gt;Yes, you guessed it, this was because in standard Editorconfig procedure, the &lt;code&gt;[bash]&lt;/code&gt; part within the &lt;code&gt;[[bash]]&lt;/code&gt; section heading is considered a sequence of characters &lt;code&gt;b&lt;/code&gt;, &lt;code&gt;a&lt;/code&gt;, &lt;code&gt;s&lt;/code&gt; and &lt;code&gt;h&lt;/code&gt;, matching files of those single-character names; and as &lt;code&gt;fixup&lt;/code&gt; was not matched with that sequence, that section (containing &lt;code&gt;indent_style = space&lt;/code&gt;) didn&#39;t apply, and so &lt;code&gt;indent_style = tab&lt;/code&gt; prevailed.&lt;/p&gt;
+&lt;p&gt;This is unfortunate, but is not really anyone&#39;s fault.&lt;/p&gt;
+&lt;h2 id=&quot;bash-language-server-shfmt-and-editorconfig&quot;&gt;Bash language server, shfmt and Editorconfig&lt;/h2&gt;
+&lt;p&gt;In preparing to call &lt;code&gt;shfmt&lt;/code&gt;, the Bash language server determines properties (appropriate for the file in question) from the Editorconfig configuration. It uses the &lt;a href=&quot;https://www.npmjs.com/package/editorconfig&quot;&gt;editorconfig&lt;/a&gt; NPM package for this determination, and the custom &lt;code&gt;shfmt&lt;/code&gt; extension to allow for &lt;code&gt;[[bash]]&lt;/code&gt; and &lt;code&gt;[[shell]]&lt;/code&gt; does not exist in that package.&lt;/p&gt;
+&lt;p&gt;There are generic configuration properties (such as &lt;code&gt;indent_style&lt;/code&gt;), and &lt;code&gt;shfmt&lt;/code&gt;-specific ones (such as &lt;code&gt;switch_case_indent&lt;/code&gt;). If there are any &lt;code&gt;shfmt&lt;/code&gt;-specific ones then the Editorconfig configuration is used. Otherwise, the language server configuration is used. This reflects the approach taken by &lt;code&gt;shfmt&lt;/code&gt; itself in using either Editorconfig or its own command line flags, but not both.&lt;/p&gt;
+&lt;p&gt;The configuration is then turned into a series of explicit &lt;code&gt;shfmt&lt;/code&gt; command line options, in particular (but not exclusively) from the &lt;a href=&quot;https://github.com/mvdan/sh/blob/master/cmd/shfmt/shfmt.1.scd#printer-flags&quot;&gt;Printer flags&lt;/a&gt; group. For example, on surfacing a &lt;code&gt;binary_next_line = true&lt;/code&gt; setting in &lt;code&gt;.editorconfig&lt;/code&gt; it will generate an equivalent &lt;code&gt;-bn&lt;/code&gt; flag to pass in the call to &lt;code&gt;shfmt&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Then the Bash language server invokes &lt;code&gt;shfmt&lt;/code&gt; passing these generated options plus the &lt;code&gt;--filename&lt;/code&gt; option to specify the full pathname of the file being formatted.&lt;/p&gt;
+&lt;h3 id=&quot;example-for-script-called-fixup&quot;&gt;Example for script called &#39;fixup&#39;&lt;/h3&gt;
+&lt;p&gt;Here&#39;s an example of that for &lt;code&gt;fixup&lt;/code&gt; for which the &lt;code&gt;editorconfig&lt;/code&gt; package does &lt;em&gt;not&lt;/em&gt; match the &lt;code&gt;[[bash]]&lt;/code&gt; section:&lt;/p&gt;
+&lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;shfmt &lt;span class=&quot;token parameter variable&quot;&gt;--filename&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;/home/dj/test/fixup &lt;span class=&quot;token parameter variable&quot;&gt;-i0&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-ln&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;auto&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;the &lt;code&gt;-i0&lt;/code&gt; comes from a default driven by the basic details sent in the request from Neovim&#39;s LSP client, which includes &lt;code&gt;insertSpaces = false&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;the &lt;code&gt;-ln=auto&lt;/code&gt; comes from [a default in the Bash language server itself] for &lt;code&gt;languageDialect&lt;/code&gt; (see also &lt;a href=&quot;https://example.com/website/blog/posts/2025/09/01/auto-formatting-extensionless-bash-scripts-in-neovim/#appendix-a-mason-info-for-bash-language-server&quot;&gt;Appendix A&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;example-for-script-called-a&quot;&gt;Example for script called &#39;a&#39;&lt;/h3&gt;
+&lt;p&gt;Here&#39;s another example for &lt;code&gt;a&lt;/code&gt; which (by chance) &lt;em&gt;was&lt;/em&gt; matched by the &lt;code&gt;[[bash]]&lt;/code&gt; section:&lt;/p&gt;
+&lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;shfmt &lt;span class=&quot;token parameter variable&quot;&gt;--filename&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;/home/dj/test/a &lt;span class=&quot;token parameter variable&quot;&gt;-i&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-bn&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-ci&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-sr&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;these options come from the &lt;code&gt;indent_size&lt;/code&gt;, &lt;code&gt;binary_next_line&lt;/code&gt;, &lt;code&gt;switch_case_indent&lt;/code&gt; and &lt;code&gt;space_redirects&lt;/code&gt; Editorconfig properties in the &lt;code&gt;[[bash]]&lt;/code&gt; section&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;useful-debugging-approaches&quot;&gt;Useful debugging approaches&lt;/h2&gt;
+&lt;p&gt;In working out what was going on, I used various tools and settings to help me. Here&#39;s a quick list of those, mostly to remind my future self.&lt;/p&gt;
+&lt;h3 id=&quot;the-editorconfig-cli&quot;&gt;The editorconfig CLI&lt;/h3&gt;
+&lt;p&gt;The &lt;a href=&quot;https://www.npmjs.com/package/editorconfig&quot;&gt;editorconfig&lt;/a&gt; package, which I installed globally for these investigations with &lt;code&gt;npm i -g editorconfig&lt;/code&gt;, also sports a CLI which can be used to show the &amp;quot;effective configuration&amp;quot;, given a filename. Taking the &lt;code&gt;.editorconfig&lt;/code&gt; file contents in the &lt;a href=&quot;https://example.com/website/blog/posts/2025/09/01/auto-formatting-extensionless-bash-scripts-in-neovim/#example-of-the-issue&quot;&gt;example of the issue&lt;/a&gt; shown earlier, here&#39;s what is output ...&lt;/p&gt;
+&lt;p&gt;for the shell script file named &lt;code&gt;a&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;$ editorconfig a
+&lt;span class=&quot;token assign-left variable&quot;&gt;indent_style&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;space
+&lt;span class=&quot;token assign-left variable&quot;&gt;indent_size&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;switch_case_indent&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;true
+&lt;span class=&quot;token assign-left variable&quot;&gt;binary_next_line&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;true
+&lt;span class=&quot;token assign-left variable&quot;&gt;space_redirects&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;true
+&lt;span class=&quot;token assign-left variable&quot;&gt;tab_width&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;and for the shell script file named &lt;code&gt;fixup&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;$ editorconfig fixup
+&lt;span class=&quot;token assign-left variable&quot;&gt;indent_style&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;tab
+&lt;span class=&quot;token assign-left variable&quot;&gt;indent_size&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;tab&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;appendix-a-mason-info-for-bash-language-server&quot;&gt;Appendix A - Mason info for bash-language-server&lt;/h2&gt;
+&lt;pre class=&quot;language-text&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Language Filter: press &lt;C-f&gt; to apply filter
+
+Installed (1)
+  ◍ bash-language-server
+    A language server for Bash.
+
+    installed version 5.6.0
+    installed purl    pkg:npm/bash-language-server@5.6.0
+    homepage          https://github.com/bash-lsp/bash-language-server
+    languages         Bash, Csh, Ksh, Sh, Zsh
+    categories        LSP
+    executables       bash-language-server
+
+    ↓ LSP server configuration schema (press enter to collapse)
+      This is a read-only overview of the settings this server accepts.
+      Note that some settings might not apply to neovim.
+
+      → bashIde.backgroundAnalysisMaxFiles    default: 500
+      → bashIde.enableSourceErrorDiagnostics  default: false
+      → bashIde.explainshellEndpoint          default: &quot;&quot;
+      → bashIde.globPattern                   default: &quot;**/*@(.sh|.inc|.bash|.command)&quot;
+      → bashIde.includeAllWorkspaceSymbols    default: false
+      → bashIde.logLevel                      default: &quot;info&quot;
+      → bashIde.shellcheckArguments           default: &quot;&quot;
+      → bashIde.shellcheckPath                default: &quot;shellcheck&quot;
+      → bashIde.shfmt.binaryNextLine          default: false
+      → bashIde.shfmt.caseIndent              default: false
+      → bashIde.shfmt.funcNextLine            default: false
+      → bashIde.shfmt.ignoreEditorconfig      default: false
+      → bashIde.shfmt.keepPadding             default: false
+      → bashIde.shfmt.languageDialect         default: &quot;auto&quot;
+      → bashIde.shfmt.path                    default: &quot;shfmt&quot;
+      → bashIde.shfmt.simplifyCode            default: false
+      → bashIde.shfmt.spaceRedirects          default: false&lt;/C-f&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;footnotes&quot;&gt;Footnotes&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;as well as &lt;code&gt;shellcheck&lt;/code&gt; which &lt;a href=&quot;https://github.com/bash-lsp/bash-language-server?tab=readme-ov-file#dependencies&quot;&gt;is also supported&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;version &lt;a href=&quot;https://github.com/mvdan/sh/releases/tag/v3.8.0&quot;&gt;3.8.0&lt;/a&gt; or higher, as that is when support for Editorconfig sections such as &lt;code&gt;[[shell]]&lt;/code&gt; &lt;a href=&quot;https://github.com/mvdan/sh/issues/664&quot;&gt;was introduced&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/qmacro/dotfiles/blob/57c7f38e64ef1f59b9c41f6155b0fa350eb030b7/config/nvim/init.lua#L14-L23&quot;&gt;configured&lt;/a&gt; through a &lt;code&gt;BufWritePre&lt;/code&gt; event based call to &lt;code&gt;vim.lsp.buf.format&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+  </entry>
   <entry>
     <title>Neovim configuration for file and module navigation in CDS models</title>
     <link href="https://example.com/website/blog/posts/2025/08/06/neovim-configuration-for-file-and-module-navigation-in-cds-models/" />
@@ -1942,38 +2060,6 @@ console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cl
 
 &lt;span class=&quot;token number&quot;&gt;6&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;That&#39;s it! Thanks again to the authors of the excellent MDN documentation.&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Functional programming resources</title>
-    <link href="https://example.com/website/blog/posts/2025/03/24/functional-programming-resources/" />
-    <updated>2025-03-24T00:00:00Z</updated>
-    <id>https://example.com/website/blog/posts/2025/03/24/functional-programming-resources/</id>
-    <content type="html">&lt;h2 id=&quot;blog-posts&quot;&gt;Blog posts&lt;/h2&gt;
-&lt;p&gt;I&#39;ve published a few &lt;a href=&quot;https://example.com/website/tags/fp/&quot;&gt;posts about functional programming&lt;/a&gt; on this blog, which you can get to via the &lt;a href=&quot;https://example.com/website/tags/fp/&quot;&gt;fp tag&lt;/a&gt;. Here are a couple of examples from that list:&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://example.com/website/blog/posts/2016/10/02/f3c-a-funfunfunction-companion-series/&quot;&gt;F3C - A FunFunFunction Companion Series&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;(Oct 2016) There&#39;s a great video series on functional programming by Mattias P Johansson (&amp;quot;MPJ&amp;quot; for short) on his &amp;quot;Fun Fun Function&amp;quot; (F3C) channel, and I wrote a series of posts to accompany the episodes, on higher order functions, map, reduce, closures, currying, recursion and more.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://example.com/website/blog/posts/2017/05/14/functional-programming-baby-steps/&quot;&gt;Functional programming - baby steps&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;(May 2017) There&#39;s a lot of talk about functional programming these days. Some of the language seems impenetrable at first - immutability, first class functions, functions as values, and so on. If you&#39;re a programmer versed in more mainstream approaches, how do you start on the functional programming journey? Here&#39;s how I started, perhaps it will work for you too.&lt;/p&gt;
-&lt;h2 id=&quot;presentations-and-documents&quot;&gt;Presentations and documents&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://docs.google.com/presentation/d/176SJNJEjkri4u18pxMg5hT72xFQturmMG4CoNoKBxb0/&quot;&gt;Learning by Doing - Beginning Clojure by Solving Puzzles&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;(Presentation, 21 Mar 2016)&lt;/p&gt;
-&lt;p&gt;I gave a talk at &lt;a href=&quot;https://www.lambdalounge.org.uk/&quot;&gt;Manchester Lambda Lounge&lt;/a&gt; on my early days looking into Clojure, a modern Lisp that bridges into the Java ecosystem. I wrote an abstract for the talk which was: &amp;quot;I&#39;m teaching myself Clojure, because awesome. In this talk, I&#39;ll relate some of my experiences in trying to discover how natives speak, by tackling puzzles in Project Euler and Advent of Code. If you&#39;re a Clojure beginner too, or even if you&#39;re not, this might give you some confidence in taking a similar journey; if you&#39;re more experienced, it might be a comedy half hour. Either way it will be fun&amp;quot;.  &lt;a href=&quot;https://example.com/website/images/2025/03/learning-by-doing-beginning-clojure-by-solving-puzzles.pdf&quot;&gt;Also available as a PDF&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://docs.google.com/presentation/d/1_zckNiAs9mCzy0pIhKolGdlKYvh9mtGI3bfJmWU8AsU&quot;&gt;DEV219 Building More Stable Business Apps with Functional Techniques in JavaScript&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;(Presentation, 08 Nov 2016)&lt;/p&gt;
-&lt;p&gt;This is a session I gave (as an external) at SAP TechEd 2016 in Barcelona, and then later that same month at UI5con in Eindhoven, as &amp;quot;An Introduction to Functional Techniques in JavaScript for UI5&amp;quot;. &lt;a href=&quot;https://example.com/website/images/2025/03/building-more-stable-business-apps-with-functional-techniques-in-javascript.pdf&quot;&gt;Also available as a PDF&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://docs.google.com/document/d/1Nx2PFqObMtir0rSzjU804PAAVkC3j4lZTtfRRoLSocQ/&quot;&gt;Functional Programming for your UI5 Apps - Hands-On Worksheet&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;(Document, 21 Jun 2018)&lt;/p&gt;
-&lt;p&gt;I wrote this detailed worksheet document to accompany my &lt;a href=&quot;https://openui5.org/ui5con/germany2019/material2018.html&quot;&gt;UI5con 2018&lt;/a&gt; session &amp;quot;Functional Programming for your UI5 Apps&amp;quot;. &lt;a href=&quot;https://example.com/website/images/2025/03/functional-programming-for-your-ui5-apps-hands-on-worksheet.pdf&quot;&gt;Also available now as a PDF&lt;/a&gt;. The &lt;a href=&quot;https://docs.google.com/presentation/d/1tSQkrIUneHENJqqAogFkcyw2Hztxk-SL497w1RH6emg/&quot;&gt;talk slides&lt;/a&gt; are also &lt;a href=&quot;https://example.com/website/images/2025/03/functional-programming-for-your-ui5-apps.pdf&quot;&gt;available as a PDF&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://docs.google.com/document/d/16Iwm_MRjmNoTBOrjjJLEHF1rX0NSDmLenMEF6ayFexU/&quot;&gt;Taking the next steps in functional programming&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;(Document, 01 Feb 2020)&lt;/p&gt;
-&lt;p&gt;These are notes I wrote for my remote talk at &lt;a href=&quot;https://community.sap.com/t5/bengaluru-blog-posts/sap-inside-track-bangalore-2020-sitblr-1st-february/ba-p/13434426&quot;&gt;SAP Inside Track Bangalore 2020&lt;/a&gt;. I shared them anyway as folks can use them to follow along and repeat the steps themselves. My talk was recorded and is available to &lt;a href=&quot;https://www.youtube.com/watch?v=q05PMGYvgm0&quot;&gt;watch online&lt;/a&gt;. &lt;a href=&quot;https://example.com/website/images/2025/03/taking-the-next-steps-in-functional-programming.pdf&quot;&gt;Also available as a PDF&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://docs.google.com/presentation/d/1VWGEutu0o541a81GPCHG-pQ6IhX8TXC9WwM90JPtIwc/&quot;&gt;Functional programming introduction: What, why, how?&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;(Presentation, 05 Mar 2020)&lt;/p&gt;
-&lt;p&gt;This was a presentation I gave at the Architecture Forum at IBSO in Manchester. It has examples of core functions in Haskell. &lt;a href=&quot;https://example.com/website/images/2025/03/functional-programming-introduction-what-why-how.pdf&quot;&gt;Also available as a PDF&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://docs.google.com/presentation/d/1xgOHBFNOjg6dFz1qHkSpB9VVjKxgjkugoxo13wAZYU0/&quot;&gt;SOT118 Functional programming - from LISP to JavaScript via Haskell&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;(Presentation, 31 May 2020)&lt;/p&gt;
-&lt;p&gt;These are slides for a presentation I gave at the remote-first &amp;quot;SAP Online Track&amp;quot; conference. The talk was recorded and is available to &lt;a href=&quot;https://www.youtube.com/watch?v=BGx_NZZNHmg&quot;&gt;watch online&lt;/a&gt;. &lt;a href=&quot;https://example.com/website/images/2025/03/sot118-functional-programming-from-lisp-to-javascript-via-haskell.pdf&quot;&gt;Also available as a PDF&lt;/a&gt;.&lt;/p&gt;
 </content>
   </entry>
 </feed>
