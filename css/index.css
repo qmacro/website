@@ -309,7 +309,9 @@ header {
 }
 
 blockquote {
-	margin: 0px;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-bottom: 15px;
 	padding-left: 15px;
 	border-left: 5px solid lightgray;
 }
