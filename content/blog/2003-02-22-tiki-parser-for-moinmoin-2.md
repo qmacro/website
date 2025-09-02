@@ -1,4 +1,5 @@
 ---
+date: 2003-02-22
 title: Tiki parser for MoinMoin
 tags:
 - blosxom

@@ -1,4 +1,5 @@
 ---
+date: 2003-02-28
 title: "'Conneg' and the duality of weblogs"
 tags:
 - blosxom
