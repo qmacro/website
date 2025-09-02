@@ -10,28 +10,31 @@ set -eo pipefail
 # return just the date i.e. 1966-09-03
 getdate() {
 
-		local file
-		file="${1##*/}"
-		echo "${file:0:10}"
+  local file
+  file="${1##*/}"
+  echo "${file:0:10}"
 }
 
 removepostlayout() {
-	local file="$1"
-	sed -i -E "/^layout: post$/d" "$file"
+  local file="$1"
+  sed -i -E "/^layout: post$/d" "$file"
 }
 
 adddate() {
 
-	local file="$1"
-	sed -i -E "0,/^---$/adate: $(getdate "$file")" "$file"
+  local file="$1"
+  sed -i -E "0,/^---$/adate: $(getdate "$file")" "$file"
 
 }
 
 main() {
-	for file in "$@"; do
-		removepostlayout "$file"
-		adddate "$file"
-	done
+  for file in "$@"; do
+    removepostlayout "$file"
+    adddate "$file"
+  done
 }
+
+echo x \
+  && echo 1 > /tmp/x
 
 main "$@"
