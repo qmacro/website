@@ -1,5 +1,14 @@
 root = true
 
+# This general section is from the original 11ty starter blog repo
+[*]
+indent_style = tab
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+
 [*.md]
 indent_style = space
 
@@ -10,11 +19,3 @@ switch_case_indent = true
 binary_next_line = true
 space_redirects = true
 
-# This section is from the original 11ty blog starter set
-[*]
-indent_style = tab
-indent_size = 2
-end_of_line = lf
-insert_final_newline = true
-trim_trailing_whitespace = true
-charset = utf-8
