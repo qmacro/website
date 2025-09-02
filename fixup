@@ -34,7 +34,4 @@ main() {
   done
 }
 
-echo x \
-  && echo 1 > /tmp/x
-
 main "$@"
