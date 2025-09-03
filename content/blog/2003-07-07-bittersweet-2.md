@@ -14,5 +14,3 @@ Each and every time I’ve been grilled by rather demeaning and unfriendly custo
 Does it have to be this way? We have airports and security in Europe too, you know. But what we also have is a sense of politeness and courtesy and the willingness to treat people like, well, people.
 
 Of course, it goes without saying that the sweetness comes from the excellent time I know I’m going to have this week with everyone at [OSCON](http://conferences.oreilly.com/oscon/). I’m sitting here right now in the hotel lobby and I know a week-long brane-melting experience awaits me!
-
-

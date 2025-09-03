@@ -4,8 +4,9 @@ date: 2003-09-29
 tags:
   - teched
   - sapcommunity
+description: I’m off to SAP TechEd this week in Basel.
 ---
-I’m off to SAP TechEd this week in Basel. Fantastic. It was a bit of a bumpy start – the online-registration process was a bit of a shambles, and I had to ring up to complete the transaction as the webpage (javascript?) was broken. Not a good advert for web-based commerce, is it? Anyway, after 3  (!)separate phone calls to the registration company I finally got the details I needed, and I’m off on the train via Koeln tomorrow down to Basel.
+Fantastic. It was a bit of a bumpy start – the online-registration process was a bit of a shambles, and I had to ring up to complete the transaction as the webpage (javascript?) was broken. Not a good advert for web-based commerce, is it? Anyway, after 3  (!)separate phone calls to the registration company I finally got the details I needed, and I’m off on the train via Koeln tomorrow down to Basel.
 
 As an attendee of other technical events, for example O’Reilly’s Open Source Convention, I’ve become used to expecting wireless ‘net access. One of the great things about attending conferences and meeting like-minded people is that there’s a ton of social interaction and collaboration that goes on in parallel to the actual sessions, presentations and stalls.
 

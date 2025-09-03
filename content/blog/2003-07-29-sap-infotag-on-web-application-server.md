@@ -3,8 +3,9 @@ title: SAP InfoTag on Web Application Server
 date: 2003-07-29
 tags:
   - sapcommunity
+description: SAP are running an Infotag on the Web Application Server in early September.
 ---
-SAP are running an [Infotag](https://web.archive.org/web/20030819233911/http://www.sap.com/company/events/calendar/view.asp?ID=3092&LANGUAGE=UNDEFINED) on the Web Application Server in early September. It’s in Ratingen (Duesseldorf), just around the corner – literally, in fact – from where I used to hack on R/2 at Mitsubishi.
+It’s in Ratingen (Duesseldorf), just around the corner – literally, in fact – from where I used to hack on R/2 at Mitsubishi.
 
 As it’s just down the road from me, I might go. Then again, how much of it is going to be yet more marketing of the NetWeaver flavour? You can’t tell these days. There’s an interesting couple of things on the agenda:
 

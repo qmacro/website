@@ -4,6 +4,7 @@ title: Another great OSCON
 tags:
 - oscon
 - sap
+description: Reflecting on another Open Source Convention.
 ---
 
 
@@ -16,5 +17,3 @@ Even when we weren’t having fun, we were having fun. The author signing event 
 ![Me and the Sony Vaio runing SAP R/3]( {{ "/images/2003/07/vaiosap.png" | url }})
 
 Our talk had included live demos against an SAP R/3 system, which I was running on the diminutive Sony Vaio laptop (128Mb RAM, PII-233, 12Gb HDD) that you can see in the picture. While preparing the system the day before in the speaker room, the work processes decided for some reason to recompile all the ABAP components, which almost killed the laptop. The HDD went mad for minutes on end, and made funny noises, which [Graham](http://search.cpan.org/author/GBARR/ "Graham Barr") promptly likened to the sound of a deep fat fryer in action. I’m thinking of renaming the laptop to “chip-pan.local.net”.
-
-

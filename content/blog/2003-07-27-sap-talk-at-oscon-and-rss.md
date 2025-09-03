@@ -6,6 +6,7 @@ tags:
   - oscon
   - opensource
   - rss
+description: Reflecting on our talk at OSCON about extending SAP with open source tools and protocols.
 ---
 We got a pretty good attendance at our [talk on SAP R/3 at OSCON](https://web.archive.org/web/20031211145311/http://conferences.oreillynet.com/cs/os2003/view/e_sess/3759) this year. We had people who were using R/3 in a corporate environment already, and people who were just curious about the famous ERP behemoth and what relation it had to Open Source. Well, plenty, these days, as we showed in the talk.
 
@@ -15,8 +16,8 @@ When you look at RSS from 10000 feet, it’s pretty obvious why it lends itself 
 
 Here are a couple of recent articles on RSS and extensibility:
 
-* [Extending RSS](https://www.xml.com/pub/a/2003/07/23/extendingrss.html)
-* [Why Choose RSS 1.0?](https://www.xml.com/pub/a/2003/07/23/rssone.html)
+- [Extending RSS](https://www.xml.com/pub/a/2003/07/23/extendingrss.html)
+- [Why Choose RSS 1.0?](https://www.xml.com/pub/a/2003/07/23/rssone.html)
 
 ---
 

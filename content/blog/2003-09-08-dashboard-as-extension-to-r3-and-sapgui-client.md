@@ -4,8 +4,9 @@ date: 2003-09-08
 tags:
   - sapcommunity
   - dashboard
+description: How do your users work with SAP data? Exclusively through SAPGUI or with other desktop apps too? If it’s the latter, read on.
 ---
-How do your users work with SAP data? Exclusively through SAPGUI or with other desktop apps too? If it’s the latter, read on. Dashboard is an intriguing project headed up by [Nat Friedman](https://nat.org/). The concept is of a sidebar style window pane that is automatically populated on an ongoing basis with information related to whatever you’re doing, giving you extra context information that you can glance at while at work. Neat.
+Dashboard is an intriguing project headed up by [Nat Friedman](https://nat.org/). The concept is of a sidebar style window pane that is automatically populated on an ongoing basis with information related to whatever you’re doing, giving you extra context information that you can glance at while at work. Neat.
 
 ![An screenshot of an early version of Dashboard](/images/2003/09/dashboard.png)
 

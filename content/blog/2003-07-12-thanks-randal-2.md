@@ -6,6 +6,7 @@ tags:
 - oscon
 - perl
 - randalschwartz
+description: Relaxing in an 80's arcade at OSCON.
 ---
 
 
@@ -16,5 +17,3 @@ Stonehenge is hosting a post-[OSCON](http://conferences.oreillynet.com/) [free b
 I discovered Perl, and subsequently the power of Open Source, through Randal. Way back when, I discovered Randal’s [magazine columns on Perl](http://www.stonehenge.com/merlyn/columns.html). I regularly printed a column out, and took it to lunch with me to study. Getting back to the office, I used to enthuse about what I’d just learnt about “this new language” to my work colleagues (including [Piers](http://www.piersharding.com/)). I got to know Perl well, and haven’t looked back.
 
 Thanks, Randal.
-
-
