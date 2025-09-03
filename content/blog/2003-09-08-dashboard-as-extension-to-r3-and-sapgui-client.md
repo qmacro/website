@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Dashboard as extension to R/3 and SAPGUI client
 date: 2003-09-08
 tags:

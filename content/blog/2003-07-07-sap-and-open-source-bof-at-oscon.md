@@ -1,5 +1,4 @@
 ---
-layout: post
 title: SAP and Open Source BOF at OSCON
 date: 2003-07-07
 tags:

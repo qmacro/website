@@ -1,14 +1,15 @@
 ---
-layout: post
+date: 2003-07-07
 title: Bittersweet
 tags:
 - oscon
 - travel
 - usa
+description: On each occasion I’ve travelled to the USA, either on business or for pleasure, I’ve entered the country with a rather bitter taste in my mouth.
 ---
 
 
-On each occasion I’ve travelled to the USA, either on business or for pleasure, I’ve entered the country with a rather bitter taste in my mouth. Each and every time I’ve been grilled by rather demeaning and unfriendly customs and security employees. I landed and went through security and customs in Minneapolis, and yet again was seething at the condescending nature of the person behind the desk. Even an attempt to make polite conversation with the person putting the bags through the scanner resulted in me leaving the area convinced the people were unable to see beyond their jobs.
+Each and every time I’ve been grilled by rather demeaning and unfriendly customs and security employees. I landed and went through security and customs in Minneapolis, and yet again was seething at the condescending nature of the person behind the desk. Even an attempt to make polite conversation with the person putting the bags through the scanner resulted in me leaving the area convinced the people were unable to see beyond their jobs.
 
 Does it have to be this way? We have airports and security in Europe too, you know. But what we also have is a sense of politeness and courtesy and the willingness to treat people like, well, people.
 

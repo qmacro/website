@@ -1,5 +1,4 @@
 ---
-layout: post
 title: SAP InfoTag on Web Application Server
 date: 2003-07-29
 tags:

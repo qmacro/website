@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Improving the OSS note experience"
 date: 2003-07-30
 tags:

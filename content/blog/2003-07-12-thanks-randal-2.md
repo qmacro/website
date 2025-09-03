@@ -1,5 +1,5 @@
 ---
-layout: post
+date: 2003-07-12
 title: Thanks, Randal
 tags:
 - beer

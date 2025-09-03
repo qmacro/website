@@ -1,5 +1,5 @@
 ---
-layout: post
+date: 2003-07-17
 title: Another great OSCON
 tags:
 - oscon

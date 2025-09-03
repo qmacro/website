@@ -1,5 +1,4 @@
 ---
-layout: post
 title: SAP talk at OSCON, and RSS
 date: 2003-07-27
 tags:

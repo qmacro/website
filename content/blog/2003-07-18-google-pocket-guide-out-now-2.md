@@ -1,5 +1,5 @@
 ---
-layout: post
+date: 2003-07-18
 title: Google Pocket Guide out now
 tags:
 - books

@@ -1,13 +1,14 @@
 ---
-layout: post
+date: 2003-07-06
 title: Some ramblings on URIs and identity
 tags:
 - foaf
 - identity
 - rdf
 - uri
+description: Coming back from a short break from the tech world recently, I started to reacquaint myself with FOAF and RDF, amongst other things.
 ---
-Coming back from a short break from the tech world recently, I started to reacquaint myself with [FOAF](http://xmlns.com/foaf/0.1/ "FOAF: Friend Of A Friend Vocab") and [RDF](http://www.w3.org/RDF/ "RDF (Resource Description Framework)"), amongst other things. Looking at the FOAF data for various people, I was reminded of the model of indirection that is used to identify a person.
+Looking at the FOAF data for various people, I was reminded of the model of indirection that is used to identify a person.
 
 ```xml
 <foaf:Person>

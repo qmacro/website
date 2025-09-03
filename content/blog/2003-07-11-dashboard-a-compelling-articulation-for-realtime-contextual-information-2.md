@@ -1,5 +1,5 @@
 ---
-layout: post
+date: 2003-07-11
 title: Dashboard, a compelling articulation for realtime contextual information
 tags:
 - dashboard-tag
