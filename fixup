@@ -15,9 +15,13 @@ getdate() {
   echo "${file:0:10}"
 }
 
+removetrailingemptylines() {
+  # See https://askubuntu.com/questions/656817/remove-any-trailing-blank-lines-or-lines-with-whitespaces-from-end-of-file
+  sed -i ':a;/^[ \n]*$/{$d;N;ba}' "$1"
+}
+
 removepostlayout() {
-  local file="$1"
-  sed -i -E "/^layout: post$/d" "$file"
+  sed -i -E "/^layout: post$/d" "$1"
 }
 
 hasdate() {
@@ -35,6 +39,7 @@ adddate() {
 
 main() {
   for file in "$@"; do
+    removetrailingemptylines "$file"
     removepostlayout "$file"
     hasdate "$file" || adddate "$file"
   done
