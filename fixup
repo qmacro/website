@@ -20,6 +20,12 @@ removepostlayout() {
   sed -i -E "/^layout: post$/d" "$file"
 }
 
+hasdate() {
+
+  grep --silent -E '^date:\s' "$1"
+
+}
+
 adddate() {
 
   local file="$1"
@@ -30,7 +36,7 @@ adddate() {
 main() {
   for file in "$@"; do
     removepostlayout "$file"
-    adddate "$file"
+    hasdate "$file" || adddate "$file"
   done
 }
 
